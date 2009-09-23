@@ -1,11 +1,11 @@
 #ifndef __JULIA__
 #define __JULIA__
 #include "date.h"
-
-class Julian:public lab2::Date{
+namespace lab2{
+  class Julian:public Date{
     Julian();
-    ~Julian();
+    virtual ~Julian();
     virtual int year();
-};
-
+  };
+}
 #endif //__JULIA__

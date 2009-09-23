@@ -1,53 +1,36 @@
 #include "date.h"
 namespace lab2{
   Date::Date(){
-
   }
   
   Date::~Date(){
-
   }
   
   Date::Date(int months, int days_per_year){
-    
   }
   
-  Date & Date::operator++(){
-    
-  }
-  
-  Date & Date::operator--(){
-    
-  }
-  
-  Date & Date::operator+=(int days){
-    
-  }
-  
-  Date & Date::operator-=(int days){
-    
-  }
-  
-  bool Date::operator==(const Date & d1,const Date & d2) const{
-  }
-  
-  bool Date::operator!=(const Date & d1,const Date &d2) const{
-  }
-  
-  bool Date::operator<(const Date & d1,const Date &d2) const{
-  }
-  
-  bool Date::operator<=(const Date & d1,const Date &d2) const{
-  }
-  
-  bool Date::operator>(const Date & d1,const Date &d2) const{
-  }
-  
-  bool Date::operator>=(const Date & d1,const Date &d2) const{
-  }
+  inline Date & Date::operator++(){++offset;} 
+  inline Date & Date::operator--(){--offset;}
+  inline Date & Date::operator+=(int days){offset+=days;}  
+  inline Date & Date::operator-=(int days){offset-=days;}
+  inline bool Date::operator==(const Date & d) const {return d.getOffset()==offset;}
+  inline bool Date::operator!=(const Date & d) const {return d.getOffset()!=offset;}
+  inline bool Date::operator<(const Date & d) const{return d.getOffset()<offset;}
+  inline bool Date::operator<=(const Date & d) const {return d.getOffset()<offset;}
+  inline bool Date::operator>(const Date & d) const {return d.getOffset()>offset;}
+  inline bool Date::operator>=(const Date & d) const {return d.getOffset<=offset;}
     
   int Date::year() const{
-    
+    int number_of_leapyears,the_year=offset;
+    int leapyear_intervall=1460;
+    if(offset<45) {
+      return GENESIS;
+    }else{
+      the_year-=44;
+      number_of_leapyears = the_year / leapyear_intervall;
+      theyear -= number_of_leapyears;   
+      return (offset/365+GENESIS);
+    }
   }
   
   int Date::month() const{
@@ -90,9 +73,13 @@ namespace lab2{
   }
   
   int Date::mod_julian_day() const{
-    
+    return getOffset();
   } 
-
+  
+  const int getOffset(){
+    return offset;
+  }
+  
   /* Not defined in Date */
   int operator-(const Date & d,const Date & d2){
     

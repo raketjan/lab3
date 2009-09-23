@@ -1,5 +1,6 @@
 #include "julian.h"
-
+namespace lab2{
 int Julian::year(){
-  return days_since_1858%days_per_year;
+  return offset%days_per_year;
+}
 }

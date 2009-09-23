@@ -8,7 +8,8 @@ namespace lab2{
   class Date{
   private:
   protected:
-    int days_since_1858;
+    static const int GENESIS = 1858;
+    int offset;
     int days_per_year;
     //int days_per_month;
     int days_per_week_var;
@@ -16,16 +17,16 @@ namespace lab2{
     Date();    
     Date(int months, int days_per_year );
     virtual ~Date();
-    virtual Date & operator++(Date &);
-    virtual Date & operator--(Date &);
+    virtual Date & operator++();
+    virtual Date & operator--();
     virtual Date & operator+=(int days);
     virtual Date & operator-=(int days);
-    bool operator==(const Date &,const Date &) const;
-    bool operator!=(const Date &,const Date &) const;
-    bool operator<(const Date &,const Date &) const;
-    bool operator<=(const Date &,const Date &) const;
-    bool operator>(const Date &,const Date &) const;
-    bool operator>=(const Date &,const Date &) const;
+    bool operator==(const Date &) const;
+    bool operator!=(const Date &) const;
+    bool operator<(const Date &) const;
+    bool operator<=(const Date &) const;
+    bool operator>(const Date &) const;
+    bool operator>=(const Date &) const;
     virtual int year() const;
     int month() const;
     inline int day() const;
@@ -37,6 +38,7 @@ namespace lab2{
     virtual std::string month_name() const;
     Date & add_year(int n = 1);
     Date & add_month(int n = 1);
+    const int getOffset();
     int mod_julian_day() const;
   };
   
