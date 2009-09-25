@@ -15,21 +15,16 @@ namespace lab2{
     int days_per_week_var;
   public:
     Date();    
+    explicit Date(int);
     Date(int months, int days_per_year );
     virtual ~Date();
-    virtual Date & operator++();
-    virtual Date & operator--();
-    virtual Date & operator+=(int days);
-    virtual Date & operator-=(int days);
-    bool operator==(const Date &) const;
-    bool operator!=(const Date &) const;
-    bool operator<(const Date &) const;
-    bool operator<=(const Date &) const;
-    bool operator>(const Date &) const;
-    bool operator>=(const Date &) const;
-    virtual int year() const;
-    int month() const;
-    inline int day() const;
+    Date & operator++();
+    Date & operator--();
+    Date & operator+=(int days);
+    Date & operator-=(int days);
+    virtual int year() const = 0;
+    virtual int month() const = 0;
+    int day() const;
     int week_day() const;
     int days_per_week() const;
     int days_this_month() const;
@@ -38,13 +33,20 @@ namespace lab2{
     virtual std::string month_name() const;
     Date & add_year(int n = 1);
     Date & add_month(int n = 1);
-    const int getOffset();
+    int getOffset() const;
     int mod_julian_day() const;
   };
-  
+
   /* Not in Date */
   int operator-(const Date &,const Date &);
   std::ostream & operator<<(std::ostream &,const Date &);
+  bool operator==(const Date &,const Date &); //const
+  bool operator!=(const Date &,const Date &);
+  bool operator<(const Date &,const Date &);
+  bool operator<=(const Date &,const Date &);
+  bool operator>(const Date &,const Date &);
+  bool operator>=(const Date &,const Date &);
+  
 }
 
 #endif //__LAB2__
