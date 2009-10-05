@@ -20,10 +20,11 @@ public:
     TS_ASSERT_EQUALS(p.month(), 3);
     TS_ASSERT_EQUALS(p.day(), 4);
     // 100000 = 31a augusti 2132
+
 Gregorian l(100000);
     TS_ASSERT_EQUALS(l.year(), 2132);
     TS_ASSERT_EQUALS(l.month(), 8);
-      TS_ASSERT_EQUALS(l.day(), 31);
+    TS_ASSERT_EQUALS(l.day(), 31);
   }
 
   void test_constructors( void ) {
@@ -33,5 +34,9 @@ Gregorian l(100000);
     TS_ASSERT_EQUALS(j.day(), 17);
     TS_ASSERT_EQUALS(j.mod_julian_day(), 0);
   }
-
+  void test_inc(){
+    Gregorian g;
+    ++g;
+    TS_ASSERT_EQUALS(g.day(), 0);
+  }
 };

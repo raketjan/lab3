@@ -22,12 +22,15 @@ namespace lab2{
     Date(int months, int days_per_year );
     virtual ~Date();
     Date & operator++();
+    Date & operator++(int);
+    //    Date & operator++(int = 0);
     Date & operator--();
+    Date & operator--(int);
     Date & operator+=(int days);
     Date & operator-=(int days);
     virtual int year() const = 0;
     virtual int month() const = 0;
-    int day() const;
+    virtual int day() const = 0;
     int week_day() const;
     int days_per_week() const;
     int days_this_month() const;

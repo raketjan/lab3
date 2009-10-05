@@ -16,15 +16,18 @@ namespace lab2{
   
   Date::Date(int months, int days_per_year){
   }
-  
-  inline Date & Date::operator++(){
+  /* TODO */
+  Date & Date::operator++(){
     ++offset;
     return *this;
-  } 
-  inline Date & Date::operator--(){
+  }
+
+  /* TODO */
+  Date & Date::operator--(){
     --offset;
     return *this;
   }
+
   inline Date & Date::operator+=(int days){
     offset+=days;
     return *this;
@@ -34,11 +37,6 @@ namespace lab2{
     return *this;
   }
 
- 
-  /* TODO */
-  inline int Date::day() const{
-    return 0;
-  }
   /*TODO*/
   int Date::week_day() const{
     return 0;

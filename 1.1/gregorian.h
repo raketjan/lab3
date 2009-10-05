@@ -8,9 +8,9 @@ namespace lab2{
     explicit Gregorian(int);
     Gregorian(int, int, int);
     virtual ~Gregorian();
-    int year() const;
-    int month() const;
-    int day() const;
+    virtual int year() const;
+    virtual int month() const;
+    virtual int day() const;
     int weekday() const;
     static int mod_julian_day(int, int, int);
     int mod_julian_day() const;
