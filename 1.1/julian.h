@@ -6,9 +6,14 @@ namespace lab2{
   public:
   Julian();
   Julian(int);
+  Julian(int, int, int);   // year month day
     virtual ~Julian();
     int year() const;
     int month() const;
+    int day() const;
+    int weekday() const;
+    static int mod_julian_day(int,int,int);   // year month day
+    int mod_julian_day() const;
   };
 }
 #endif //__JULIA__

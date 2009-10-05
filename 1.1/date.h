@@ -4,8 +4,11 @@
 #include <stdlib.h>
 #include <stdexcept>
 #include <cstddef>
+#include "kattistime.h"
 namespace lab2{
   class Date{
+    friend  std::ostream & operator<<(std::ostream &, const Date &);
+    friend std::istream & operator>>(std::istream &, Date &); 
   private:
   protected:
     static const int GENESIS = 1858;
@@ -39,7 +42,8 @@ namespace lab2{
 
   /* Not in Date */
   int operator-(const Date &,const Date &);
-  std::ostream & operator<<(std::ostream &,const Date &);
+ std::ostream & operator<<(std::ostream &, const Date &);
+ std::istream & operator>>(std::istream &, Date &); 
   bool operator==(const Date &,const Date &); //const
   bool operator!=(const Date &,const Date &);
   bool operator<(const Date &,const Date &);
