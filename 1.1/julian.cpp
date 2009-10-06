@@ -24,11 +24,8 @@ namespace lab2{
     int i = 4000*(s2 + 1) / 1461001;
     int s3 = s2 - 1451 * i / 4 + 31;
     int q = 80 * s3 / 2447;
-    int e = s3 - 2447 * q/80;
     int s4 = q/11;
-    int m = q + 2 - 12 * s4;
     int j = 100* (n -49) + i + s4;
-    int d = e;
     return j;
 
   }  
@@ -40,11 +37,8 @@ namespace lab2{
     int i = 4000*(s2 + 1) / 1461001;
     int s3 = s2 - 1451 * i / 4 + 31;
     int q = 80 * s3 / 2447;
-    int e = s3 - 2447 * q/80;
     int s4 = q/11;
     int m = q + 2 - 12 * s4;
-    int j = 100* (n -49) + i + s4;
-    int d = e;
     return m;
 }
 
@@ -57,10 +51,7 @@ namespace lab2{
     int s3 = s2 - 1451 * i / 4 + 31;
     int q = 80 * s3 / 2447;
     int e = s3 - 2447 * q/80;
-    int s4 = q/11;
-    int m = q + 2 - 12 * s4;
-    int j = 100* (n -49) + i + s4;
-    int d = e;
+      int d = e;
     return d;
   }
 
