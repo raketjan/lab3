@@ -38,7 +38,7 @@ namespace lab2{
     virtual std::string week_day_name() const;
     virtual std::string month_name() const;
     
-    Date & add_year(int n = 1);
+    virtual Date & add_year(int n = 1) = 0;
     virtual Date & add_month(int n = 1) = 0;
     int getOffset() const;
     int mod_julian_day() const;

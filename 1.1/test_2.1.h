@@ -139,7 +139,34 @@ Gregorian q(0);
     g4.add_month(-1);
     TS_ASSERT_EQUALS(g4.month(), 2);
     TS_ASSERT_EQUALS(g4.day(), 27);
-    
+  }
+
+  void test_add_year(){
+    Gregorian g4(2007,3,29);
+    g4.add_year(1);
+    TS_ASSERT_EQUALS(g4.year(), 2008);
+    TS_ASSERT_EQUALS(g4.month(), 3);
+    TS_ASSERT_EQUALS(g4.day(), 29);
+    Gregorian g5(2007,3,29);
+    g5.add_year(-1);
+    TS_ASSERT_EQUALS(g5.year(), 2006);
+    TS_ASSERT_EQUALS(g5.month(), 3);
+    TS_ASSERT_EQUALS(g5.day(), 29);
+    Gregorian g6(2008,2,29);
+    g6.add_year(-108);
+    TS_ASSERT_EQUALS(g6.year(), 1900);
+    TS_ASSERT_EQUALS(g6.month(), 2);
+    TS_ASSERT_EQUALS(g6.day(), 28);
+    Gregorian g7(2008,2,29);
+    g7.add_year(107);
+    TS_ASSERT_EQUALS(g7.year(), 2115);
+    TS_ASSERT_EQUALS(g7.month(), 2);
+    TS_ASSERT_EQUALS(g7.day(), 28);
+    Gregorian g8(2008,2,29);
+    g8.add_year(80);
+    TS_ASSERT_EQUALS(g8.year(), 2088);
+    TS_ASSERT_EQUALS(g8.month(), 2);
+    TS_ASSERT_EQUALS(g8.day(), 29);
 
   }
 };

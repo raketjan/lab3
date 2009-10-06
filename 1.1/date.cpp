@@ -1,9 +1,11 @@
 #include "date.h"
 #include <ctime>
 namespace lab2{
+  /* TODO */
   Date::Date(){
     time_t sekunder = time(0);
     set_k_time(sekunder);
+    
     sekunder = k_time(0);
     offset = sekunder/(60*60*24) + 40588 - 1; // 1 jan 1970 !
   }
@@ -60,10 +62,6 @@ namespace lab2{
   
   std::string Date::month_name() const{
     return "";
-  }
-  
-  Date & Date::add_year(int n){
-    return *this;
   }
   
   int Date::mod_julian_day() const{

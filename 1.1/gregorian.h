@@ -17,6 +17,7 @@ namespace lab2{
     virtual int month() const;
     virtual int day() const;
     virtual Date & add_month(int n = 1);
+    virtual Date & add_year(int n = 1);
     virtual int days_this_month() const;
     int weekday() const;
     static int mod_julian_day(int, int, int);

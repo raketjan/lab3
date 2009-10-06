@@ -131,6 +131,94 @@ namespace lab2{
     float julDate = floor(365.25*(year+4716)) + floor(30.6001*(month+1)) + day + B - 1524.5;
     return julDate - 2400000;
   }
+  
+  /*Working ?*/
+  Date & Gregorian::add_month(int m){
+    if(m<0){
+      for(int i=0;i<-m;++i){
+	sub_one_month();	
+      }
+    }else{    
+      for(int i=0;i<m;++i){
+	add_one_month();	
+      }
+    }
+    return *this;
+  }
+  
+  int Gregorian::days_this_month() const{
+    return days_in_month(month());
+  }
+  
+  /* Negativa! */
+  Date & Gregorian::add_year(int y){
+    if(day()==29&&month()==2){ //börjar på skottdag == 29
+      if((year()+y)%400==0){ // landar på en skottdag == 29
+	offset = mod_julian_day(year()+y,2,29);
+	return *this;
+      }
+      else if((year()+y)%100==0){ // ändå inte skottår
+	offset = mod_julian_day(year()+y,2,28);
+	return *this;
+      }else if((year()+y)%4==0){ // landar på vanligt skottår
+      	offset = mod_julian_day(year()+y,month(),29);
+	return *this;
+      }else{	
+	offset = mod_julian_day(year()+y,month(),28); // landar på ej skottår
+	return *this;
+      }
+    }else{ // inte börjat på skottdag
+      offset = mod_julian_day(year()+y,month(),day());
+      return *this;
+    }
+  }
+  
+  int Gregorian::days_in_month(int m) const{
+    
+    switch (m){
+    case 1:
+      return 31;
+      break;
+    case 2:
+      if(is_leap_year()){
+	return 29;
+      }else{
+     return 28;
+      }
+      break;
+    case 3:
+      return 31;
+      break;
+    case 4:
+	return 30;
+	break;
+    case 5:
+      return 31;
+      break;
+    case 6:
+	return 30;
+	break;
+    case 7:
+      return 31;
+      break;
+    case 8:
+      return 31;
+      break;
+      case 9:
+	return 30;
+	break;
+    case 10:
+      return 31;
+      break;
+    case 11:
+      return 30;
+      break;
+    case 12:
+      return 31;
+	break;
+	
+    }
+  }
   /* ska kunna ta neg*/
   void Gregorian::add_one_month(){
     if(day()==31&&month()==7){
@@ -183,71 +271,6 @@ namespace lab2{
     offset-=days_in_month(prev_month);
     
     return;
-  }
-  
-  /*Working ?*/
-  Date & Gregorian::add_month(int m){
-    if(m<0){
-      for(int i=0;i<-m;++i){
-	sub_one_month();	
-      }
-    }else{    
-      for(int i=0;i<m;++i){
-	add_one_month();	
-      }
-    }
-    return *this;
-  }
-  
-  int Gregorian::days_this_month() const{
-    return days_in_month(month());
-  }
-  
-  int Gregorian::days_in_month(int m) const{
-    
-    switch (m){
-    case 1:
-      return 31;
-      break;
-    case 2:
-      if(is_leap_year()){
-	return 29;
-      }else{
-     return 28;
-      }
-      break;
-    case 3:
-      return 31;
-      break;
-    case 4:
-	return 30;
-	break;
-    case 5:
-      return 31;
-      break;
-    case 6:
-	return 30;
-	break;
-    case 7:
-      return 31;
-      break;
-    case 8:
-      return 31;
-      break;
-      case 9:
-	return 30;
-	break;
-    case 10:
-      return 31;
-      break;
-    case 11:
-      return 30;
-      break;
-    case 12:
-      return 31;
-	break;
-	
-    }
   }
   
   bool Gregorian::is_leap_year() const{
