@@ -1,6 +1,7 @@
 #ifndef __GREG__
 #define __GREG__
 #include "julian.h"
+#include <math.h>
 namespace lab2{
   class Gregorian:public Date{
   public:

@@ -10,7 +10,7 @@ namespace lab2{
     friend  std::ostream & operator<<(std::ostream &, const Date &);
     friend std::istream & operator>>(std::istream &, Date &); 
   private:
-  protected:
+  public:
     static const int GENESIS = 1858;
     int offset;
     int days_per_year;

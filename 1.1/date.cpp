@@ -5,7 +5,7 @@ namespace lab2{
     time_t sekunder = time(0);
     set_k_time(sekunder);
     sekunder = k_time(0);
-    offset = sekunder/(60*60*24) + 40588; // 1 jan 1970 !
+    offset = sekunder/(60*60*24) + 40588 - 1; // 1 jan 1970 !
   }
   
   Date::Date(int o):offset(o){
