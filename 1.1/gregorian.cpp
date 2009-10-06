@@ -131,6 +131,135 @@ namespace lab2{
     float julDate = floor(365.25*(year+4716)) + floor(30.6001*(month+1)) + day + B - 1524.5;
     return julDate - 2400000;
   }
-
-
+  /* ska kunna ta neg*/
+  void Gregorian::add_one_month(){
+    if(day()==31&&month()==7){
+      offset+=days_this_month();
+      return;
+    }
+    if(day()==31){
+      offset+=30;
+      return;
+    }
+    if(day()==30&&month()==1){
+      offset+=30;
+      return;
+    }
+    if(day()==29&&month()==1){
+      if(is_leap_year()){
+	offset+=days_this_month();
+      }else{
+	offset+=30;
+      }
+      return;
+    }
+ 
+    offset+=days_this_month();
+    return;
+  }
+  
+  void Gregorian::sub_one_month(){
+    if(day()==30&&month()==3){
+      offset-=30;
+      return;
+    }
+    if(day()==29&&month()==3){
+      if(is_leap_year()){
+	offset-=29;	
+      }else{
+	offset-=30;
+      }
+      return;
+    }
+    if(day()==28&&month()==3){
+      if(is_leap_year()){
+	offset-=29;
+      }else{
+	offset-=28;
+      }
+      return;
+    }
+    int prev_month=(month()!=1)?month()-1:12;
+    offset-=days_in_month(prev_month);
+    
+    return;
+  }
+  
+  /*Working ?*/
+  Date & Gregorian::add_month(int m){
+    if(m<0){
+      for(int i=0;i<-m;++i){
+	sub_one_month();	
+      }
+    }else{    
+      for(int i=0;i<m;++i){
+	add_one_month();	
+      }
+    }
+    return *this;
+  }
+  
+  int Gregorian::days_this_month() const{
+    return days_in_month(month());
+  }
+  
+  int Gregorian::days_in_month(int m) const{
+    
+    switch (m){
+    case 1:
+      return 31;
+      break;
+    case 2:
+      if(is_leap_year()){
+	return 29;
+      }else{
+     return 28;
+      }
+      break;
+    case 3:
+      return 31;
+      break;
+    case 4:
+	return 30;
+	break;
+    case 5:
+      return 31;
+      break;
+    case 6:
+	return 30;
+	break;
+    case 7:
+      return 31;
+      break;
+    case 8:
+      return 31;
+      break;
+      case 9:
+	return 30;
+	break;
+    case 10:
+      return 31;
+      break;
+    case 11:
+      return 30;
+      break;
+    case 12:
+      return 31;
+	break;
+	
+    }
+  }
+  
+  bool Gregorian::is_leap_year() const{
+    if(year()%400==0){
+      return true;
+    }
+    if(year()%100==0){
+      return false;
+    }
+    if(year()%4==0){
+      return true;
+    }
+    return false;
+  }
 }

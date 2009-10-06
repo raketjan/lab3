@@ -66,10 +66,6 @@ namespace lab2{
     return *this;
   }
   
-  Date & Date::add_month(int n){
-    return *this;
-  }
-  
   int Date::mod_julian_day() const{
     return Date::getOffset();
   } 
@@ -83,13 +79,13 @@ namespace lab2{
   }
   
  std::ostream & operator<<(std::ostream & os,const Date & date) {
-   os << date.year() << "-" << date.month() << "-" << date.day();
+   os << date.year() <<  "-";
+   os.width(2);
+   os.fill('0');
+   os << date.month() << "-" << date.day();
     return os;
   }
-  std::istream & operator>>(std::istream & is, Date & date){
-    return is;
-  }
-  
+
   inline bool operator==(const Date & d1,const Date &d2){
     return d1.getOffset()==d2.getOffset();
   }

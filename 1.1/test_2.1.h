@@ -91,4 +91,55 @@ Gregorian q(0);
     ++g;
     TS_ASSERT_EQUALS(g.day(), 7);
   }
+  void test_add_month(){
+    Gregorian g(2009,10,6);
+    g.add_month(1);
+    TS_ASSERT_EQUALS(g.month(), 11);
+    TS_ASSERT_EQUALS(g.day(), 6);
+
+    Gregorian g2(2008,1,29);
+    g2.add_month(1);
+    TS_ASSERT_EQUALS(g2.month(), 2);
+    TS_ASSERT_EQUALS(g2.day(), 29);
+    
+    Gregorian g3(2007,1,29);
+    g3.add_month(1);
+    TS_ASSERT_EQUALS(g3.month(), 2);
+    TS_ASSERT_EQUALS(g3.day(), 28);
+    
+    Gregorian g4(2008,1,29);
+    g4.add_month(10);
+    TS_ASSERT_EQUALS(g4.month(), 11);
+    TS_ASSERT_EQUALS(g4.day(), 29);
+    
+    Gregorian g5(2008,3,31);
+    g5.add_month(5);
+    TS_ASSERT_EQUALS(g5.month(), 8);
+    TS_ASSERT_EQUALS(g5.day(), 30);
+  }
+
+  void test_sub_month(){
+    Gregorian g(2009,10,6);
+    g.add_month(-1);
+    // tar bort 31 dagar
+    TS_ASSERT_EQUALS(g.month(), 9);
+    TS_ASSERT_EQUALS(g.day(), 6);
+
+    Gregorian g2(2008,1,29);
+    g2.add_month(-1);
+    TS_ASSERT_EQUALS(g2.month(), 12);
+    TS_ASSERT_EQUALS(g2.day(), 29);
+    
+    Gregorian g3(2007,1,29);
+    g3.add_month(-1);
+    TS_ASSERT_EQUALS(g3.month(), 12);
+    TS_ASSERT_EQUALS(g3.day(), 29);
+
+    Gregorian g4(2007,3,29);
+    g4.add_month(-1);
+    TS_ASSERT_EQUALS(g4.month(), 2);
+    TS_ASSERT_EQUALS(g4.day(), 27);
+    
+
+  }
 };
