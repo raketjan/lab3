@@ -24,13 +24,13 @@ public:
     TS_ASSERT_EQUALS(p.mod_julian_day(), 10000);
     // 100000 = 31a augusti 2132
 
-Gregorian l(100000);
+    Gregorian l(100000);
     TS_ASSERT_EQUALS(l.year(), 2132);
     TS_ASSERT_EQUALS(l.month(), 9);
     TS_ASSERT_EQUALS(l.day(), 1);
     TS_ASSERT_EQUALS(l.mod_julian_day(), 100000);
  
-Gregorian q(0);
+    Gregorian q(0);
     TS_ASSERT_EQUALS(q.year(), 1858);
     TS_ASSERT_EQUALS(q.month(), 11);
     TS_ASSERT_EQUALS(q.day(), 17);
@@ -169,4 +169,23 @@ Gregorian q(0);
     TS_ASSERT_EQUALS(g8.day(), 29);
 
   }
-};
+
+  void test_exceptions(){
+
+  }
+  
+  void test_week_day(){
+    Gregorian g1(1858,11,17);
+    TS_ASSERT_EQUALS(g1.week_day(), 3);
+
+    Gregorian g(2009,10,6);
+    TS_ASSERT_EQUALS(g.week_day(), 2);
+  }
+
+  void test_names(){
+    Gregorian g(2009,10,6);
+    TS_ASSERT_EQUALS(g.month_name(), "october");
+    TS_ASSERT_EQUALS(g.week_day_name(), "tuesday");
+
+  }
+}; //den bästa sommaren

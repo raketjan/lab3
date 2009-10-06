@@ -8,6 +8,8 @@ namespace lab2{
     void sub_one_month();
     bool is_leap_year() const;
     int days_in_month(int) const;
+    static const std::string weekdaynames [];
+    static const std::string monthnames [];
   public:
     Gregorian();
     explicit Gregorian(int);
@@ -18,10 +20,16 @@ namespace lab2{
     virtual int day() const;
     virtual Date & add_month(int n = 1);
     virtual Date & add_year(int n = 1);
-    virtual int days_this_month() const;
+    virtual int week_day() const;
+    virtual int days_per_week() const;
+    virtual int days_this_month() const;    
+    virtual std::string week_day_name() const;
+    virtual std::string month_name() const;
     int weekday() const;
     static int mod_julian_day(int, int, int);
     int mod_julian_day() const;
+
   };
+
 }
 #endif //__GREG__

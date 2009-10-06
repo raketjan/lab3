@@ -39,31 +39,6 @@ namespace lab2{
     return *this;
   }
 
-  /*TODO*/
-  int Date::week_day() const{
-    return 0;
-  }
-  /*TODO*/
-  int Date::days_per_week() const{
-    return 0;
-  }
-  /*TODO*/
-  int Date::days_this_month() const{
-    return 0;
-  }
-  /*TODO*/
-  int Date::months_per_year() const{
-    return 0;
-  }
-  
-  std::string Date::week_day_name() const{
-    return "";
-  }
-  
-  std::string Date::month_name() const{
-    return "";
-  }
-  
   int Date::mod_julian_day() const{
     return Date::getOffset();
   } 

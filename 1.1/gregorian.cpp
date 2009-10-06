@@ -1,10 +1,13 @@
 #include "gregorian.h"
 namespace lab2{
-   Gregorian::Gregorian():Date(){
+  const std::string Gregorian::weekdaynames[]={"monday","tuesday","wednesday","thursday","friday","saturday","sunday"};
+  const std::string Gregorian::monthnames[]={"january","february","march","april","may","june","july","august","september","october","november","december"};
+  Gregorian::Gregorian():Date(){
   }
 
+  /* not checked if offset<0 */
   Gregorian::Gregorian(int o):Date(o) {
-}
+  }
 
   Gregorian::Gregorian(int year, int month, int day)
     :Date(mod_julian_day(year, month, day)) {
@@ -116,12 +119,23 @@ namespace lab2{
 
    
   }
-
+  
   int Gregorian::mod_julian_day() const { 
     return offset;
   }
-
+  
   int Gregorian::mod_julian_day(int year, int month, int day) {
+    if(year<1858||year>2558) {
+      throw std::out_of_range("year_out_of_range");
+    }
+    if(month<1||month>12){
+      throw std::out_of_range("month_out_of_range");
+    }
+    /*Maybe needed 30/2 for example*/
+    if(day<1||day>31){
+      throw std::out_of_range("day_out_of_range");
+    }
+
     if (month <= 2) {
       month += 12;
       year -= 1;
@@ -219,6 +233,24 @@ namespace lab2{
 	
     }
   }
+  
+  int Gregorian::week_day() const{
+    return ((offset+2)%days_per_week())+1; //Kostsamt
+  }
+
+  /* Hardcaoded - Dangerous! */
+  int Gregorian::days_per_week() const{
+    return 7;
+  }
+  
+  std::string Gregorian::week_day_name() const{
+    return weekdaynames[week_day()-1];
+  }
+
+  std::string Gregorian::month_name() const{
+    return monthnames[month()-1];
+  }
+
   /* ska kunna ta neg*/
   void Gregorian::add_one_month(){
     if(day()==31&&month()==7){

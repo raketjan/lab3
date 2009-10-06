@@ -31,12 +31,12 @@ namespace lab2{
     virtual int year() const = 0;
     virtual int month() const = 0;
     virtual int day() const = 0;
-    int week_day() const;
-    int days_per_week() const;
+    virtual int week_day() const = 0;
+    virtual int days_per_week() const = 0;
     virtual int days_this_month() const = 0;
     int months_per_year() const;
-    virtual std::string week_day_name() const;
-    virtual std::string month_name() const;
+    virtual std::string week_day_name() const = 0;
+    virtual std::string month_name() const = 0;
     
     virtual Date & add_year(int n = 1) = 0;
     virtual Date & add_month(int n = 1) = 0;
