@@ -251,6 +251,27 @@ namespace lab2{
     return monthnames[month()-1];
   }
 
+  Gregorian & Gregorian::operator++(){
+    ++offset;
+    return *this;
+  }
+  
+  Gregorian & Gregorian::operator++(int){
+    ++offset;
+    return *this-1;
+  }
+
+  Gregorian & Gregorian::operator--(){
+    --offset;
+    return *this;
+  }
+  
+  Gregorian & Gregorian::operator--(int){
+    Gregorian tmp(*this);
+    --offset;
+    return tmp;
+  }
+  
   /* ska kunna ta neg*/
   void Gregorian::add_one_month(){
     if(day()==31&&month()==7){

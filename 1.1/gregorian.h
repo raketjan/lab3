@@ -28,7 +28,10 @@ namespace lab2{
     int weekday() const;
     static int mod_julian_day(int, int, int);
     int mod_julian_day() const;
-
+    virtual Gregorian & operator++();
+    virtual Gregorian & operator++(int);
+    virtual Gregorian & operator--();
+    virtual Gregorian & operator--(int);
   };
 
 }

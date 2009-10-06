@@ -7,9 +7,17 @@
 #include "kattistime.h"
 namespace lab2{
   class Date{
+    /* friend? */
     friend  std::ostream & operator<<(std::ostream &, const Date &);
-    
+    friend bool operator==(const Date &,const Date &);    
+    friend bool operator!=(const Date &,const Date &);
+    friend bool operator<(const Date &,const Date &);
+    friend bool operator<=(const Date &,const Date &);
+    friend bool operator>(const Date &,const Date &);
+    friend bool operator>=(const Date &,const Date &);
+
   private:
+    /* TODO set to private*/
   public:
     static const int GENESIS = 1858;
     int offset;
@@ -21,11 +29,10 @@ namespace lab2{
     explicit Date(int);
     Date(int months, int days_per_year );
     virtual ~Date();
-    Date & operator++();
-    Date & operator++(int);
-    //    Date & operator++(int = 0);
-    Date & operator--();
-    Date & operator--(int);
+    virtual Date & operator++() = 0;
+    virtual Date & operator++(int) = 0;
+    virtual Date & operator--() = 0;
+    virtual Date & operator--(int) = 0;
     Date & operator+=(int days);
     Date & operator-=(int days);
     virtual int year() const = 0;
@@ -45,9 +52,12 @@ namespace lab2{
   };
 
   /* Not in Date */
+  
   int operator-(const Date &,const Date &);
- std::ostream & operator<<(std::ostream &, const Date &);
-  bool operator==(const Date &,const Date &); //const
+  std::ostream & operator<<(std::ostream &, const Date &);
+
+  /* TODO Should theese be const? */
+  bool operator==(const Date &,const Date &);
   bool operator!=(const Date &,const Date &);
   bool operator<(const Date &,const Date &);
   bool operator<=(const Date &,const Date &);

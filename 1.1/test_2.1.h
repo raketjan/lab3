@@ -86,11 +86,6 @@ public:
     TS_ASSERT_EQUALS(g.day(), 5);
 }
 
-  void test_inc(){
-    Gregorian g;
-    ++g;
-    TS_ASSERT_EQUALS(g.day(), 7);
-  }
   void test_add_month(){
     Gregorian g(2009,10,6);
     g.add_month(1);
@@ -187,5 +182,38 @@ public:
     TS_ASSERT_EQUALS(g.month_name(), "october");
     TS_ASSERT_EQUALS(g.week_day_name(), "tuesday");
 
+  }
+
+  void test_comp(){
+    Gregorian g(2009,10,6);
+    Gregorian g2(2009,10,6);
+    Gregorian g3(2009,10,7);
+    TS_ASSERT_EQUALS(g<g2,false);
+    TS_ASSERT_EQUALS(g==g2,true);
+    TS_ASSERT_EQUALS(g>g2,false);
+    TS_ASSERT_EQUALS(g<=g2,true);
+    TS_ASSERT_EQUALS(g>=g2,true);
+
+    TS_ASSERT_EQUALS(g<g,false);
+    TS_ASSERT_EQUALS(g==g,true);
+    TS_ASSERT_EQUALS(g>g,false);
+    TS_ASSERT_EQUALS(g<=g,true);
+    TS_ASSERT_EQUALS(g>=g,true);
+  
+    TS_ASSERT_EQUALS(g<g3,true);
+    TS_ASSERT_EQUALS(g==g2,true);
+    TS_ASSERT_EQUALS(g>g2,false);
+    TS_ASSERT_EQUALS(g<=g2,true);
+    TS_ASSERT_EQUALS(g>=g2,true);  
+  }
+
+  void test_inc(){
+    Gregorian g(2009,10,7);
+    g++;
+    TS_ASSERT_EQUALS(g.day(),8);
+    Gregorian g1(2009,10,7);
+    ++g1;
+    TS_ASSERT_EQUALS(g1.day(),8);
+    
   }
 }; //den bästa sommaren

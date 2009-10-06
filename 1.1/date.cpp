@@ -18,17 +18,6 @@ namespace lab2{
   
   Date::Date(int months, int days_per_year){
   }
-  /* TODO */
-  Date & Date::operator++(){
-    ++offset;
-    return *this;
-  }
-
-  /* TODO */
-  Date & Date::operator--(){
-    --offset;
-    return *this;
-  }
 
   inline Date & Date::operator+=(int days){
     offset+=days;
@@ -46,9 +35,9 @@ namespace lab2{
   int Date::getOffset() const {
     return offset;
   }
-  /* Not defined in Date */
+
   int operator-(const Date & d,const Date & d2){
-    return 0;
+    return d.offset - d2.offset;
   }
   
  std::ostream & operator<<(std::ostream & os,const Date & date) {
@@ -59,12 +48,22 @@ namespace lab2{
     return os;
   }
 
-  inline bool operator==(const Date & d1,const Date &d2){
+  bool operator==(const Date & d1,const Date &d2){
     return d1.getOffset()==d2.getOffset();
   }
-  inline bool operator!=(const Date & d1,const Date &d2) {return d1.getOffset()!=d2.getOffset();}
-  inline bool operator<(const Date & d1,const Date &d2) {return d1.getOffset()<d2.getOffset();}
-  inline bool operator<=(const Date & d1,const Date &d2)  {return d1.getOffset()<d2.getOffset();}
-  inline bool operator>(const Date & d1,const Date &d2)  {return d1.getOffset()>d2.getOffset();}
-  inline bool operator>=(const Date & d1,const Date &d2) {return d1.getOffset()<=d2.getOffset();}
+  bool operator!=(const Date & d1,const Date &d2){
+    return d1.offset!=d2.offset;
+  }
+  bool operator<(const Date & d1,const Date &d2){
+    return d1.getOffset()<d2.getOffset();
+  }
+  bool operator<=(const Date & d1,const Date &d2){
+    return d1.getOffset()<=d2.getOffset();
+  }
+  bool operator>(const Date & d1,const Date &d2){
+    return d1.getOffset()>d2.getOffset();
+  }
+  bool operator>=(const Date & d1,const Date &d2){
+    return d1.getOffset()>=d2.getOffset();
+  }
 }
