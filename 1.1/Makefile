@@ -2,7 +2,7 @@ CC=g++
 VSN=2.1
 CFLAGS=-Wall -g
 LDFLAGS=
-SOURCES=date.cpp gregorian.cpp julian.cpp kattistime.cpp
+SOURCES=date.cpp gregorian.cpp kattistime.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 
 all: test_$(VSN)

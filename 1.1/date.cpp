@@ -19,6 +19,11 @@ namespace lab2{
   Date::Date(int months, int days_per_year){
   }
 
+  Date & Date::operator++(){
+    ++offset;
+    return *this;
+  }
+
   inline Date & Date::operator+=(int days){
     offset+=days;
     return *this;

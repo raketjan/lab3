@@ -1,6 +1,6 @@
 #include <cxxtest/TestSuite.h>
 
-#include "julian.h"
+
 #include "gregorian.h"
 using namespace lab2;
 
@@ -10,11 +10,11 @@ public:
   void test_year( void )
   {
     Gregorian g;
-    TS_ASSERT_EQUALS(g.mod_julian_day(), 55110);
+    TS_ASSERT_EQUALS(g.mod_julian_day(), 55111);
     TS_ASSERT_EQUALS(g.year(), 2009);
     TS_ASSERT_EQUALS(g.month(), 10);
-    TS_ASSERT_EQUALS(g.day(), 6);
-    TS_ASSERT_EQUALS(g.mod_julian_day(), 55110);
+    TS_ASSERT_EQUALS(g.day(), 7);
+    TS_ASSERT_EQUALS(g.mod_julian_day(), 55111);
     // lägg till eller skapa ny med offset 10000
     // ska bli 23e march 1886
     Gregorian p(10000);

@@ -29,10 +29,6 @@ namespace lab2{
     explicit Date(int);
     Date(int months, int days_per_year );
     virtual ~Date();
-    virtual Date & operator++() = 0;
-    virtual Date & operator++(int) = 0;
-    virtual Date & operator--() = 0;
-    virtual Date & operator--(int) = 0;
     Date & operator+=(int days);
     Date & operator-=(int days);
     virtual int year() const = 0;
@@ -44,7 +40,7 @@ namespace lab2{
     int months_per_year() const;
     virtual std::string week_day_name() const = 0;
     virtual std::string month_name() const = 0;
-    
+    //    Date & operator++();
     virtual Date & add_year(int n = 1) = 0;
     virtual Date & add_month(int n = 1) = 0;
     int getOffset() const;

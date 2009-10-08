@@ -20,7 +20,7 @@ namespace lab2{
 
   int Gregorian::year() const{ 
     float A, month, year;
-    if (offset == 0) return 1858;  // hjälp
+    if (offset == 0) return 1858;
     float julDate = offset + 1.5 + 2400000;
     float z = floor(julDate);
     float f = julDate - z;
@@ -250,15 +250,17 @@ namespace lab2{
   std::string Gregorian::month_name() const{
     return monthnames[month()-1];
   }
-
+  
+  
   Gregorian & Gregorian::operator++(){
     ++offset;
     return *this;
   }
   
-  Gregorian & Gregorian::operator++(int){
+  Gregorian Gregorian::operator++(int){
+    Gregorian tmp(*this);
     ++offset;
-    return *this-1;
+    return tmp;
   }
 
   Gregorian & Gregorian::operator--(){
@@ -266,7 +268,7 @@ namespace lab2{
     return *this;
   }
   
-  Gregorian & Gregorian::operator--(int){
+  Gregorian Gregorian::operator--(int){
     Gregorian tmp(*this);
     --offset;
     return tmp;

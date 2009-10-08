@@ -2,20 +2,18 @@
 namespace lab2{
   Julian::Julian():Date(){
   }
-
+  
   Julian::Julian(int o):Date(o) {
-}
-
+  }
+  
   Julian::Julian(int year, int month, int day)
-    :Date(mod_julian_day(year, month, day)) {
-   
+    :Date(mod_julian_day(year, month, day)) { 
   }
-
-
-
+  
   Julian::~Julian(){
+    
   }
-
+  
   int Julian::year() const{ 
     int p = offset + 2400000;
     int s1 = p + 68569;
