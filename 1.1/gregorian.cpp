@@ -251,8 +251,7 @@ namespace lab2{
     return monthnames[month()-1];
   }
   
-  
-  Gregorian & Gregorian::operator++(){
+  Date & Gregorian::operator++(){
     ++offset;
     return *this;
   }
@@ -262,8 +261,9 @@ namespace lab2{
     ++offset;
     return tmp;
   }
+  
 
-  Gregorian & Gregorian::operator--(){
+  Date & Gregorian::operator--(){
     --offset;
     return *this;
   }

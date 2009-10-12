@@ -40,7 +40,8 @@ namespace lab2{
     int months_per_year() const;
     virtual std::string week_day_name() const = 0;
     virtual std::string month_name() const = 0;
-    //    Date & operator++();
+    Date & operator++();
+    Date & operator--();
     virtual Date & add_year(int n = 1) = 0;
     virtual Date & add_month(int n = 1) = 0;
     int getOffset() const;
