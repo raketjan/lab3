@@ -1,149 +1,142 @@
 #include "gregorian.h"
 namespace lab2{
-  const std::string Gregorian::weekdaynames[]={"monday","tuesday","wednesday","thursday","friday","saturday","sunday"};
-  const std::string Gregorian::monthnames[]={"january","february","march","april","may","june","july","august","september","october","november","december"};
+  const std::string Gregorian::weekdaynames[]={
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday"};
+
+  const std::string Gregorian::monthnames[]={
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december"};
+  
   Gregorian::Gregorian():Date(){
+    time_t mytime;
+    k_time(&mytime);
+    
+    struct tm *t = gmtime(&mytime);
+    int year = t->tm_year + 1900;
+    int month = t->tm_mon +1;
+    int day = t->tm_mday;
+    offset = double_julian_day(year,month,day) ;    
+	std::cout << "setting offset 1 " << offset << std::endl;
   }
 
   /* not checked if offset<0 */
-  Gregorian::Gregorian(int o):Date(o) {
+  /* konstig */
+  Gregorian::Gregorian(double o):Date(o) {
+    std::cout << "setting offset 3 " << offset << std::endl;
   }
-
-  Gregorian::Gregorian(int year, int month, int day)
-    :Date(mod_julian_day(year, month, day)) {
+  
+  /* ok */
+  Gregorian::Gregorian(int y, int m, int d):Date(){
+    check_range(y,m,d);
+    //?
+    //Date(double_julian_day(y, m, d));
+    Date::offset = double_julian_day(y, m, d);
+    std::cout << "setting offset 2 " << offset << std::endl;
   }
-
-
 
   Gregorian::~Gregorian(){
   }
-
-  int Gregorian::year() const{ 
-    float A, month, year;
-    if (offset == 0) return 1858;
-    float julDate = offset + 1.5 + 2400000;
-    float z = floor(julDate);
-    float f = julDate - z;
-    if (z < 2299161) {
-      A = z;
-    }
-    else {
-      float omega = floor((z-1867216.25)/36524.25);
-      A = z + 1 + omega - floor(omega/4);
-    }
-    float B = A + 1524;
-    float C = floor((B-122.1)/365.25);
-    float D = floor(365.25*C);
-    float Epsilon = floor((B-D)/30.6001);
-    float dayGreg = B - D - floor(30.6001*Epsilon) + f;
-    if (Epsilon < 14) {
-      month = Epsilon - 1;
-    }
-    else {
-      month = Epsilon - 13;
-    }
-    if (month > 2) {
-      year = C - 4716;
-    }
-    else {
-      year = C - 4715;
-    }
-    return year;
-
+  
+  int Gregorian::months_per_year() const{
+    return 12;
+  }
+  
+  int Gregorian::year() const{
+    std::cout << "year(): offset: " << offset << std::endl; 
+    int p = floor(offset + 0.5);
+    int s = p + 68569;
+    int n = floor(4*s / 146097);
+    s = s - floor((146097*n+3) / 4);
+    int i = floor(4000 * (s+1) / 1461001);
+    s = s - floor(1461*i/4) + 31;
+    int q = floor(80*s/2447);
+    s = floor(q / 11);
+    return 100*(n - 49) + i + s;
   }  
 
   int Gregorian::month() const{
-    float A, month, year;
-    if (offset == 0) return 11;  // hjälp
-    float julDate = offset + 1.5 + 2400000;
-    float z = floor(julDate);
-    float f = julDate - z;
-    if (z < 2299161) {
-      A = z;
-    }
-    else {
-      float omega = floor((z-1867216.25)/36524.25);
-      A = z + 1 + omega - floor(omega/4);
-    }
-    float B = A + 1524;
-    float C = floor((B-122.1)/365.25);
-    float D = floor(365.25*C);
-    float Epsilon = floor((B-D)/30.6001);
-    float dayGreg = B - D - floor(30.6001*Epsilon) + f;
-    if (Epsilon < 14) {
-      month = Epsilon - 1;
-    }
-    else {
-      month = Epsilon - 13;
-    }
-    if (month > 2) {
-      year = C - 4716;
-    }
-    else {
-      year = C - 4715;
-    }
-    return month;
+    int p = floor(offset + 0.5);
+    int s = p + 68569;
+    int n = floor(4*s / 146097);
+    s = s - floor((146097*n+3) / 4);
+    int i = floor(4000 * (s+1) / 1461001);
+    s = s - floor(1461*i/4) + 31;
+    int q = floor(80*s/2447);
+    s = floor(q / 11);
+    return q + 2 - 12*s;
+    
   }
 
   int Gregorian::day() const {
-    float A, month, year;
-    if (offset == 0) return 17;  // hjälp
-    float julDate = offset + 1.5 + 2400000;
-    float z = floor(julDate);
-    float f = julDate - z;
-    if (z < 2299161) {
-      A = z;
-    }
-    else {
-      float omega = floor((z-1867216.25)/36524.25);
-      A = z + 1 + omega - floor(omega/4);
-    }
-    float B = A + 1524;
-    float C = floor((B-122.1)/365.25);
-    float D = floor(365.25*C);
-    float Epsilon = floor((B-D)/30.6001);
-    float dayGreg = B - D - floor(30.6001*Epsilon) + f;
-    if (Epsilon < 14) {
-      month = Epsilon - 1;
-    }
-    else {
-      month = Epsilon - 13;
-    }
-    if (month > 2) {
-      year = C - 4716;
-    }
-    else {
-      year = C - 4715;
-    }
-    return dayGreg;
-
-   
+    int p = floor(offset+ 0.5);
+    int s = p + 68569;
+    int n = floor(4*s / 146097);
+    s = s - floor((146097*n+3) / 4);
+    int i = floor(4000 * (s+1) / 1461001);
+    s = s - floor(1461*i/4) + 31;
+    int q = floor(80*s/2447);
+    int e = s - floor(2447*q/80);
+    s = floor(q / 11);
+    return e + offset  - p + 0.5;
   }
   
-  int Gregorian::mod_julian_day() const { 
+  int Gregorian::mod_julian_day() const {     
+    return floor(offset-2400000.5);
+  }
+  
+  double Gregorian::double_julian_day() const { 
     return offset;
   }
   
-  int Gregorian::mod_julian_day(int year, int month, int day) {
+  /* borde heta julianday(...) */
+  double Gregorian::double_julian_day(int year, int month, int day) {
+    //check_range(year,month,day);
+     
+        double ret = (1461 * (year + 4800 + (month - 14)/12))/4 +
+               (367 * (month - 2 - 12 * ((month - 14)/12)))/12 -
+               (3 * ((year + 4900 + (month - 14)/12)/100))/4 +
+               day - 32075;
+
+	std::cout << "ret: " << ret << std::endl;
+	return ret;
+
+  }
+  
+  void Gregorian::check_range(int year, int month, int day) {
+    std::cout << "check range year " << year << std::endl;
     if(year<1858||year>2558) {
       throw std::out_of_range("year_out_of_range");
     }
+    std::cout << "check range month " << month << std::endl;
+    
     if(month<1||month>12){
       throw std::out_of_range("month_out_of_range");
     }
-    /*Maybe needed 30/2 for example*/
-    if(day<1||day>31){
+    /* Maybe needed 30/2 for example */
+    std::cout << "check range day " << day << std::endl;
+    std::cout << "days in month: " << days_in_month(month) << std::endl;    
+    if(day<1||day>days_in_month(year,month)){
+	std::cout << days_in_month(month) << std::endl;
+	std::cout << "im gonna throw up" << std::endl;
       throw std::out_of_range("day_out_of_range");
     }
-
-    if (month <= 2) {
-      month += 12;
-      year -= 1;
-    }
-    float A = floor(year/100);
-    float B = 2 - A + floor(A/4);
-    float julDate = floor(365.25*(year+4716)) + floor(30.6001*(month+1)) + day + B - 1524.5;
-    return julDate - 2400000;
+    std::cout << "leaving check_range" << std::endl;
   }
   
   /*Working ?*/
@@ -168,74 +161,69 @@ namespace lab2{
   Date & Gregorian::add_year(int y){
     if(day()==29&&month()==2){ //börjar på skottdag == 29
       if((year()+y)%400==0){ // landar på en skottdag == 29
-	offset = mod_julian_day(year()+y,2,29);
+	offset = double_julian_day(year()+y,2,29);
 	return *this;
       }
       else if((year()+y)%100==0){ // ändå inte skottår
-	offset = mod_julian_day(year()+y,2,28);
+	offset = double_julian_day(year()+y,2,28);
 	return *this;
       }else if((year()+y)%4==0){ // landar på vanligt skottår
-      	offset = mod_julian_day(year()+y,month(),29);
+      	offset = double_julian_day(year()+y,month(),29);
 	return *this;
       }else{	
-	offset = mod_julian_day(year()+y,month(),28); // landar på ej skottår
+	offset = double_julian_day(year()+y,month(),28); // landar på ej skottår
 	return *this;
       }
     }else{ // inte börjat på skottdag
-      offset = mod_julian_day(year()+y,month(),day());
+      offset = double_julian_day(year()+y,month(),day());
       return *this;
     }
   }
-  
-  int Gregorian::days_in_month(int m) const{
-    
+ 
+  int Gregorian::days_in_month(int m) const {
+    return days_in_month(year(), m);
+  }
+ 
+  int Gregorian::days_in_month(int y, int m) const{
+    if(m<1 || m>12){
+      throw std::out_of_range("month_out_of_range");
+    }
     switch (m){
     case 1:
-      return 31;
-      break;
+      return 31;      
     case 2:
-      if(is_leap_year()){
+      if(is_leap_year(y)){
 	return 29;
       }else{
-     return 28;
-      }
-      break;
+	return 28;
+      }      
     case 3:
-      return 31;
-      break;
+      return 31;      
     case 4:
-	return 30;
-	break;
+	return 30;	
     case 5:
-      return 31;
-      break;
+      return 31;      
     case 6:
-	return 30;
-	break;
+	return 30;	
     case 7:
-      return 31;
-      break;
+      return 31;      
     case 8:
-      return 31;
-      break;
-      case 9:
-	return 30;
-	break;
+      return 31;      
+    case 9:
+      return 30;
     case 10:
-      return 31;
-      break;
+      return 31;      
     case 11:
       return 30;
-      break;
     case 12:
       return 31;
-	break;
-	
     }
+    // wroong
+    return -1;
   }
   
   int Gregorian::week_day() const{
-    return ((offset+2)%days_per_week())+1; //Kostsamt
+    return (static_cast<int>(floor(offset+0.5))%days_per_week())+1; //Kostsamt
   }
 
   /* Hardcaoded - Dangerous! */
@@ -244,10 +232,17 @@ namespace lab2{
   }
   
   std::string Gregorian::week_day_name() const{
+    if(week_day()<1 || week_day()>7){
+      throw std::out_of_range("week_out_of_range");
+    }
+
     return weekdaynames[week_day()-1];
   }
 
   std::string Gregorian::month_name() const{
+    if(month()<1 || month()>12){
+      throw std::out_of_range("month_out_of_range");
+    }
     return monthnames[month()-1];
   }
   
@@ -327,17 +322,24 @@ namespace lab2{
     
     return;
   }
+
+  bool Gregorian::is_leap_year(int y) {
+	std::cout << "year " << y << std::endl; 
+        if(y % 4 == 0) {
+            if(y % 100 == 0) {
+                if(y % 400 == 0) {
+                    return true;
+                }
+                return false;
+            }
+            return true;
+        }
+        return false;
+  } 
+ 
+  bool Gregorian::is_leap_year() const{    
+	is_leap_year(year());
   
-  bool Gregorian::is_leap_year() const{
-    if(year()%400==0){
-      return true;
-    }
-    if(year()%100==0){
-      return false;
-    }
-    if(year()%4==0){
-      return true;
-    }
-    return false;
   }
+
 }

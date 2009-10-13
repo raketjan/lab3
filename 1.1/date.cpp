@@ -3,42 +3,44 @@
 namespace lab2{
   /* TODO */
   Date::Date(){
-    time_t sekunder = time(0);
-    set_k_time(sekunder);
+  }
     
-    sekunder = k_time(0);
-    offset = sekunder/(60*60*24) + 40588 - 1; // 1 jan 1970 !
-  }
-  
   Date::Date(int o):offset(o){
-  }
+    
+    }
   
   Date::~Date(){
+    
   }
   
   Date::Date(int months, int days_per_year){
+    
   }
   
-  /* Maybe not needed */
+  /* Needed! */
   Date & Date::operator++(){
     ++offset;
     return *this;
   }
   
-  inline Date & Date::operator+=(int days){
+  /* Needed! */
+  Date & Date::operator--(){
+    --offset;
+    return *this;
+  }
+  
+  Date & Date::operator+=(int days){
     offset+=days;
     return *this;
   }  
-  inline Date & Date::operator-=(int days){
+
+  Date & Date::operator-=(int days){
     offset-=days;
     return *this;
   }
-
-  int Date::mod_julian_day() const{
-    return Date::getOffset();
-  } 
-
-  int Date::getOffset() const {
+  
+  
+  double Date::getOffset() const {
     return offset;
   }
 
@@ -50,7 +52,10 @@ namespace lab2{
    os << date.year() <<  "-";
    os.width(2);
    os.fill('0');
-   os << date.month() << "-" << date.day();
+   os << date.month() << "-";
+   os.width(2);
+   os.fill('0');
+   os << date.day();
     return os;
   }
 

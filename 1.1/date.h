@@ -15,37 +15,39 @@ namespace lab2{
     friend bool operator<=(const Date &,const Date &);
     friend bool operator>(const Date &,const Date &);
     friend bool operator>=(const Date &,const Date &);
-
-  private:
-    /* TODO set to private*/
+    friend int operator-(const Date &,const Date &);
+    //TODO get_offset
   public:
-    static const int GENESIS = 1858;
-    int offset;
-    int days_per_year;
+    //protected:
+    //static const int GENESIS = 1858;
+    double offset;
+    //int days_per_year;
     //int days_per_month;
-    int days_per_week_var;
+    //int days_per_week_var;
   public:
     Date();    
     explicit Date(int);
+    //Date & Date(const & d);
     Date(int months, int days_per_year );
     virtual ~Date();
-    Date & operator+=(int days);
-    Date & operator-=(int days);
+    Date & operator+=(int);
+    Date & operator-=(int);
     virtual int year() const = 0;
     virtual int month() const = 0;
     virtual int day() const = 0;
     virtual int week_day() const = 0;
     virtual int days_per_week() const = 0;
     virtual int days_this_month() const = 0;
-    int months_per_year() const;
+    virtual int months_per_year() const = 0;
     virtual std::string week_day_name() const = 0;
     virtual std::string month_name() const = 0;
     Date & operator++();
     Date & operator--();
     virtual Date & add_year(int n = 1) = 0;
     virtual Date & add_month(int n = 1) = 0;
-    int getOffset() const;
-    int mod_julian_day() const;
+    virtual int mod_julian_day() const = 0;
+    virtual double double_julian_day() const = 0;
+    double getOffset() const;
   };
 
   /* Not in Date */

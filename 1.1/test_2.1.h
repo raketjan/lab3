@@ -1,41 +1,32 @@
 #include <cxxtest/TestSuite.h>
 
+#define private public
+#define protected public
 
 #include "gregorian.h"
 #include "julian.h"
+
 using namespace lab2;
 
 class MyTestSuite : public CxxTest::TestSuite 
 {
+  
 public:
+  MyTestSuite(){
+    time_t tp;
+    time(&tp);
+    set_k_time(tp);
+  }
+  
   void test_year( void )
   {
+    
     Gregorian g;
-
     TS_ASSERT_EQUALS(g.year(), 2009);
     TS_ASSERT_EQUALS(g.month(), 10);
-    TS_ASSERT_EQUALS(g.day(), 12);
-    TS_ASSERT_EQUALS(g.mod_julian_day(), 55116);
-    // lägg till eller skapa ny med offset 10000
-    // ska bli 23e march 1886
-    Gregorian p(10000);
-    TS_ASSERT_EQUALS(p.year(), 1886);
-    TS_ASSERT_EQUALS(p.month(), 4);
-    TS_ASSERT_EQUALS(p.day(), 4);
-    TS_ASSERT_EQUALS(p.mod_julian_day(), 10000);
-    // 100000 = 31a augusti 2132
-
-    Gregorian l(100000);
-    TS_ASSERT_EQUALS(l.year(), 2132);
-    TS_ASSERT_EQUALS(l.month(), 9);
-    TS_ASSERT_EQUALS(l.day(), 1);
-    TS_ASSERT_EQUALS(l.mod_julian_day(), 100000);
- 
-    Gregorian q(0);
-    TS_ASSERT_EQUALS(q.year(), 1858);
-    TS_ASSERT_EQUALS(q.month(), 11);
-    TS_ASSERT_EQUALS(q.day(), 17);
-    TS_ASSERT_EQUALS(q.mod_julian_day(), 0);
+    TS_ASSERT_EQUALS(g.day(), 13);
+    TS_ASSERT_EQUALS(floor(g.mod_julian_day()),55117);
+    
   }
 
   void test_constructors( void ) {
@@ -43,36 +34,35 @@ public:
     TS_ASSERT_EQUALS(j.year(), 1858);
     TS_ASSERT_EQUALS(j.month(), 11);
     TS_ASSERT_EQUALS(j.day(), 17);
-    TS_ASSERT_EQUALS(j.mod_julian_day(), 0);
+    TS_ASSERT_EQUALS(floor(j.mod_julian_day()), 0);
   }
   void test_constructors2( void ) {
     Gregorian j(2009, 10, 5);
     TS_ASSERT_EQUALS(j.year(), 2009);
     TS_ASSERT_EQUALS(j.month(), 10);
     TS_ASSERT_EQUALS(j.day(), 5);
-    TS_ASSERT_EQUALS(j.mod_julian_day(), 55109);
+    TS_ASSERT_EQUALS(floor(j.mod_julian_day()), 55109);
   }
   void test_constructors3( void ) {
     Gregorian j(1890, 2, 13);
     TS_ASSERT_EQUALS(j.year(), 1890);
     TS_ASSERT_EQUALS(j.month(), 2);
     TS_ASSERT_EQUALS(j.day(), 13);
-    TS_ASSERT_EQUALS(j.mod_julian_day(), 11411);
+    TS_ASSERT_EQUALS(floor(j.mod_julian_day()), 11411);
   }
 
 
 
   void test_mod_julian_day( void ) {
     Gregorian g;
-    TS_ASSERT_EQUALS(Gregorian::mod_julian_day(1858,11,17), 0);
-    TS_ASSERT_EQUALS(Gregorian::mod_julian_day(1900, 1, 1), 15020);
-
-
-    TS_ASSERT_EQUALS(Gregorian::mod_julian_day(2009, 10, 5), 55109);
-    TS_ASSERT_EQUALS(Gregorian::mod_julian_day(1973, 3, 11), 41752);
+    TS_ASSERT_EQUALS(floor(g.double_julian_day(1858,11,17)), 2400000.5);
+    TS_ASSERT_EQUALS(floor(g.double_julian_day(1900, 1, 1)), 2415020);
+    TS_ASSERT_EQUALS(floor(g.double_julian_day(2009, 10, 5)), 2455109);
+    TS_ASSERT_EQUALS(floor(g.double_julian_day(1973, 3, 11)), 2441752);
 }
 
   void test_day( void ) {
+    
     Gregorian g;
     g.offset = 0;
     TS_ASSERT_EQUALS(g.day(), 17);
@@ -224,37 +214,38 @@ void test_Jyear( void )
     Julian g;
     TS_ASSERT_EQUALS(g.year(), 2009);
     TS_ASSERT_EQUALS(g.month(), 9);
-    TS_ASSERT_EQUALS(g.day(), 29);
-    TS_ASSERT_EQUALS(g.mod_julian_day(), 55116);
+    TS_ASSERT_EQUALS(g.day(), 30);
+    TS_ASSERT_EQUALS(floor(g.mod_julian_day()), 55117);
+
     // lägg till eller skapa ny med offset 10000
     // ska bli 23e march 1886
-    Julian p(10000);
+    Julian p(2410000);
     TS_ASSERT_EQUALS(p.year(), 1886);
     TS_ASSERT_EQUALS(p.month(), 3);
     TS_ASSERT_EQUALS(p.day(), 23);
-    TS_ASSERT_EQUALS(p.mod_julian_day(), 10000);
+    TS_ASSERT_EQUALS(floor(p.mod_julian_day()), 10000);
     // 100000 = 31a augusti 2132
 
-    Julian l(100000);
+    Julian l(2500000);
     TS_ASSERT_EQUALS(l.year(), 2132);
     TS_ASSERT_EQUALS(l.month(), 8);
     TS_ASSERT_EQUALS(l.day(), 18);
     TS_ASSERT_EQUALS(l.mod_julian_day(), 100000);
- 
-    Julian q(0);
+    
+    Julian q(2400000);
     TS_ASSERT_EQUALS(q.year(), 1858);
     TS_ASSERT_EQUALS(q.month(), 11);
     TS_ASSERT_EQUALS(q.day(), 5);
-    TS_ASSERT_EQUALS(q.mod_julian_day(), 0);
+    TS_ASSERT_EQUALS(floor(q.mod_julian_day()),0);
   }
-
-  void test_Jconstructors( void ) {
-    Julian j(1858, 11, 5);
-    TS_ASSERT_EQUALS(j.year(), 1858);
+ 
+ void test_Jconstructors( void ) {
+   Julian j(1858, 11, 5);
+   TS_ASSERT_EQUALS(j.year(), 1858);
     TS_ASSERT_EQUALS(j.month(), 11);
     TS_ASSERT_EQUALS(j.day(), 5);
-    TS_ASSERT_EQUALS(j.mod_julian_day(), 0);
-  }
+    TS_ASSERT_EQUALS(floor(j.mod_julian_day()), 0);
+    }
   void test_Jconstructors2( void ) {
     Julian j(2009, 10, 5);
     TS_ASSERT_EQUALS(j.year(), 2009);
@@ -267,17 +258,23 @@ void test_Jyear( void )
     TS_ASSERT_EQUALS(j.year(), 1890);
     TS_ASSERT_EQUALS(j.month(), 2);
     TS_ASSERT_EQUALS(j.day(), 13);
-    TS_ASSERT_EQUALS(j.mod_julian_day(), 11423);
+    TS_ASSERT_EQUALS(floor(j.mod_julian_day()), 11423);
   }
-
-
 
   void test_Jmod_julian_day( void ) {
     Julian g;
-    TS_ASSERT_EQUALS(Julian::mod_julian_day(1858,11,5), 0);
-    TS_ASSERT_EQUALS(Julian::mod_julian_day(1900, 1, 1), 15032);
-    TS_ASSERT_EQUALS(Julian::mod_julian_day(2009, 10, 5), 55122);
-    TS_ASSERT_EQUALS(Julian::mod_julian_day(1973, 3, 11), 41765);
+    TS_ASSERT_EQUALS(floor(g.mod_julian_day()),55117);
+    TS_ASSERT_EQUALS(floor(g.double_julian_day(2009,10,12)), 2455129);
+    TS_ASSERT_EQUALS(floor(g.double_julian_day(2009,10,5)), 2455122);
+    TS_ASSERT_EQUALS(floor(g.double_julian_day(2009,9,12)), 2455099);
+    TS_ASSERT_EQUALS(floor(g.double_julian_day(1909,10,12)), 2418604);
+    TS_ASSERT_EQUALS(floor(g.double_julian_day(2000,10,12)), 2451842);
+    TS_ASSERT_EQUALS(floor(g.double_julian_day(2008,10,12)), 2454764);
+    TS_ASSERT_EQUALS(floor(g.double_julian_day(1900, 1, 1)), 2415032);
+    TS_ASSERT_EQUALS(floor(g.double_julian_day(2009, 10, 5)), 2455122);
+    TS_ASSERT_EQUALS(floor(g.double_julian_day(1973, 3, 11)), 2441765);
+    TS_ASSERT_EQUALS(floor(g.double_julian_day(1858,11,5)), 2400000);
+    TS_ASSERT_EQUALS(floor(g.double_julian_day(1958,11,5)), 2436525);
 }
 
   void test_Jday( void ) {
@@ -300,11 +297,26 @@ void test_Jyear( void )
     g.add_month(1);
     TS_ASSERT_EQUALS(g.month(), 11);
     TS_ASSERT_EQUALS(g.day(), 6);
-
+    
+    Julian gg(2008,2,29);
+    TS_ASSERT_EQUALS(gg.is_leap_year(), true);
+    TS_ASSERT_EQUALS(gg.days_this_month(), 29);
+    TS_ASSERT_EQUALS(floor(gg.offset), 2454538);
+    TS_ASSERT_EQUALS(gg.month(), 2);
+    TS_ASSERT_EQUALS(gg.day(), 29);
+    
+    
     Julian g2(2008,1,29);
+    
+    TS_ASSERT_EQUALS(g2.month(), 1);
+    TS_ASSERT_EQUALS(g2.day(), 29);
+    TS_ASSERT_EQUALS(g2.days_this_month(), 31);
     g2.add_month(1);
+    TS_ASSERT_EQUALS(g2.days_this_month(), 29);
+    TS_ASSERT_EQUALS(floor(g2.offset), 2454538);
     TS_ASSERT_EQUALS(g2.month(), 2);
     TS_ASSERT_EQUALS(g2.day(), 29);
+
     
     Julian g3(2007,1,29);
     g3.add_month(1);
@@ -316,12 +328,51 @@ void test_Jyear( void )
     TS_ASSERT_EQUALS(g4.month(), 11);
     TS_ASSERT_EQUALS(g4.day(), 29);
     
+    Julian g6(2008,3,31);
+    g6.add_month(5);
+    TS_ASSERT_EQUALS(g6.month(), 8);
+    TS_ASSERT_EQUALS(g6.day(), 30);
     Julian g5(2008,3,31);
-    g5.add_month(5);
+    g5.add_month(1);
+    TS_ASSERT_EQUALS(g5.month(), 4);
+    TS_ASSERT_EQUALS(g5.day(), 30);
+    g5.add_month(1);
+    TS_ASSERT_EQUALS(g5.month(), 5);
+    TS_ASSERT_EQUALS(g5.day(), 30);
+    g5.add_month(1);
+    TS_ASSERT_EQUALS(g5.month(), 6);
+    TS_ASSERT_EQUALS(g5.day(), 30);
+    g5.add_month(1);
+    TS_ASSERT_EQUALS(g5.month(), 7);
+    TS_ASSERT_EQUALS(g5.day(), 30);
+    g5.add_month(1);
     TS_ASSERT_EQUALS(g5.month(), 8);
     TS_ASSERT_EQUALS(g5.day(), 30);
-  }
+    Julian g7(2007,3,31);
+    TS_ASSERT_EQUALS(floor(g7.mod_julian_day()),54203);
+    TS_ASSERT_EQUALS(g7.month(), 3);
+    TS_ASSERT_EQUALS(g7.day(), 31);
+    TS_ASSERT_EQUALS(g7.is_leap_year(), false);
 
+    g7.add_month(1);
+    TS_ASSERT_EQUALS(g7.month(), 4);
+    TS_ASSERT_EQUALS(g7.day(), 30);
+    TS_ASSERT_EQUALS(floor(g7.mod_julian_day()),54233);
+    g7.add_month(1);
+    TS_ASSERT_EQUALS(g7.month(), 5);
+    TS_ASSERT_EQUALS(g7.day(), 30);
+    g7.add_month(1);
+    TS_ASSERT_EQUALS(g7.month(), 6);
+    TS_ASSERT_EQUALS(g7.day(), 30);
+    g7.add_month(1);
+    TS_ASSERT_EQUALS(g7.month(), 7);
+    TS_ASSERT_EQUALS(g7.day(), 30);
+    g7.add_month(1);
+    TS_ASSERT_EQUALS(g7.month(), 8);
+    TS_ASSERT_EQUALS(g7.day(), 30);
+    
+  }
+  
   void test_Jsub_month(){
     Julian g(2009,10,6);
     g.add_month(-1);
@@ -426,3 +477,4 @@ void test_Jyear( void )
     
   }
 }; //den bästa sommaren
+

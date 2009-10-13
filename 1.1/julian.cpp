@@ -3,128 +3,119 @@ namespace lab2{
   const std::string Julian::weekdaynames[]={"monday","tuesday","wednesday","thursday","friday","saturday","sunday"};
   const std::string Julian::monthnames[]={"january","february","march","april","may","june","july","august","september","october","november","december"};
   Julian::Julian():Date(){
+    time_t mytime;
+    k_time(&mytime);
+    /*funkar i gregorian;*/
+    struct tm *t = gmtime(&mytime);
+    int year = t->tm_year + 1900;
+    int month = t->tm_mon +1;
+    int day = t->tm_mday;
+    offset = greg_julian_day(year,month,day);
     //Här får man inte anropa nåt virtuellt
   }
-
+  
+  Julian::Julian(const Date & d){
+    offset=d.offset;
+  }  
   /* not checked if offset<0 */
+  
   Julian::Julian(int o):Date(o) {
   }
-
+  
   Julian::Julian(int year, int month, int day)
-    :Date(mod_julian_day(year, month, day)) {
+    :Date(double_julian_day(year, month, day)+1) {
   }
 
   Julian::~Julian(){
   }
-
-  int Julian::year() const{ 
-    
-    float z, a, alpha, b, c, d, e, year, month, day;
-    z = offset+1+2400000;
-
-    a = z;
-    b = a + 1524;
-    c = floor((b - 122.1) / 365.25);
-    d = floor(365.25 * c);
-    e = floor((b - d) / 30.6001);
-
-    month = floor((e < 14) ? (e - 1) : (e - 13));
-    year = floor((month > 2) ? (c - 4716) : (c - 4715));
-    day = b - d - floor(30.6001 * e);
-
-    /*  If year is less than 1, subtract one to convert from
-        a zero based date system to the common era system in
-        which the year -1 (1 B.C.E) is followed by year 1 (1 C.E.).  */
-
-    if (year < 1) {
-        year--;
+  
+  double Julian::greg_julian_day(int year,int month, int day){
+    check_range(year,month,day);
+    if (month <= 2) {
+      month += 12;
+      year -= 1;
     }
 
-    return year;
-  }  
-
-  int Julian::month() const{
-    
-    float z, a, alpha, b, c, d, e, year, month, day;
-    z = offset+1+2400000;
-
-    a = z;
-    b = a + 1524;
-    c = floor((b - 122.1) / 365.25);
-    d = floor(365.25 * c);
-    e = floor((b - d) / 30.6001);
-
-    month = floor((e < 14) ? (e - 1) : (e - 13));
-    year = floor((month > 2) ? (c - 4716) : (c - 4715));
-    day = b - d - floor(30.6001 * e);
-
-    /*  If year is less than 1, subtract one to convert from
-        a zero based date system to the common era system in
-        which the year -1 (1 B.C.E) is followed by year 1 (1 C.E.).  */
-
-    if (year < 1) {
-        year--;
-    }
-
-    return month;
-  }
-
-  int Julian::day() const {
-
-    float z, a, alpha, b, c, d, e, year, month, day;
-    z = offset+1+2400000;
-
-    a = z;
-    b = a + 1524;
-    c = floor((b - 122.1) / 365.25);
-    d = floor(365.25 * c);
-    e = floor((b - d) / 30.6001);
-
-    month = floor((e < 14) ? (e - 1) : (e - 13));
-    year = floor((month > 2) ? (c - 4716) : (c - 4715));
-    day = b - d - floor(30.6001 * e);
-
-    /*  If year is less than 1, subtract one to convert from
-        a zero based date system to the common era system in
-        which the year -1 (1 B.C.E) is followed by year 1 (1 C.E.).  */
-
-    if (year < 1) {
-        year--;
-    }
-
-    return day;
-  }
-
-  int Julian::mod_julian_day() const { 
-    return offset;
+    return (1461 * (year + 4800 + (month - 14)/12))/4 +
+      (367 * (month - 2 - 12 * ((month - 14)/12)))/12 -
+      (3 * ((year + 4900 + (month - 14)/12)/100))/4 +
+      day - 32075;
   }
   
-  int Julian::mod_julian_day(int year, int month, int day) {
+  int Julian::months_per_year() const{
+    return 12;
+  }
+
+  int Julian::year() const{ 
+    double z = floor(offset + 0.5);
+    double a = z;
+    double b = a + 1524;
+    double c = floor((b - 122.1) / 365.25);
+    double d = floor(365.25 * c);
+    double e = floor((b - d) / 30.6001);
+    double month = e > 13? e - 13 : e - 1;
+    double year = month < 3? c - 4715 : c - 4716;
+    return static_cast<int>(year);
+  }  
+
+  int Julian::month() const{  
+    double z = floor(offset + 0.5);
+    double a = z;
+    double b = a + 1524;
+    double c = floor((b - 122.1) / 365.25);
+    double d = floor(365.25 * c);
+    double e = floor((b - d) / 30.6001);
+    double month = e > 13? e - 13 : e - 1;
+    return static_cast<int>(month);
+  }
+  
+  int Julian::day() const {
+   double z = floor(offset + 0.5);
+   double f = z - floor(z);
+   double a = z;
+   double b = a + 1524;
+   double c = floor((b - 122.1) / 365.25);
+   double d = floor(365.25 * c);
+   double e = floor((b - d) / 30.6001);
+   double day = b - d - floor(30.6001 * e) + f;
+   return static_cast<int>(day);
+  }
+  
+  int Julian::mod_julian_day() const { 
+    return floor(offset-2400000.5);
+  }
+  
+  double Julian::double_julian_day() const { 
+    return offset;
+  }
+  /* OK  */
+  double Julian::double_julian_day(int year, int month, int day) {
+    /* Algorithm as given in Meeus, Astronomical Algorithms, Chapter 7, page 61 */
+    check_range(year,month,day);
+    if (month <= 2) {
+      --year;
+      month += 12;
+    }
+    return floor(365.25 * (year + 4716)) +
+      floor(30.6001 * (month + 1)) +
+      day - 1524.5;
+  }
+
+  void Julian::check_range(int year, int month, int day) {
     if(year<1858||year>2558) {
       throw std::out_of_range("year_out_of_range");
     }
     if(month<1||month>12){
       throw std::out_of_range("month_out_of_range");
     }
-    
-    /*Maybe needed 30/2 for example*/
-    if(day<1||day>31){
+    /* Maybe needed 30/2 for example */
+    if(day<1||day>days_in_month(month)){
       throw std::out_of_range("day_out_of_range");
     }
-
-        /* Algorithm as given in Meeus, Astronomical Algorithms, Chapter 7, page 61 */
-
-    if (month <= 2) {
-        year--;
-        month += 12;
-    }
-
-    return ((floor((365.25 * (year + 4716))) +
-            floor((30.6001 * (month + 1))) +
-            day) - 1524.5) - 2400000;
   }
   
-  /*Working ?*/
+  /* Working */
+     
   Date & Julian::add_month(int m){
     if(m<0){
       for(int i=0;i<-m;++i){
@@ -145,27 +136,23 @@ namespace lab2{
   /* Negativa! */
   Date & Julian::add_year(int y){
     if(day()==29&&month()==2){ //börjar på skottdag == 29
-      if((year()+y)%400==0){ // landar på en skottdag == 29
-	offset = mod_julian_day(year()+y,2,29);
-	return *this;
-      }
-      else if((year()+y)%100==0){ // ändå inte skottår
-	offset = mod_julian_day(year()+y,2,28);
-	return *this;
-      }else if((year()+y)%4==0){ // landar på vanligt skottår
-      	offset = mod_julian_day(year()+y,month(),29);
-	return *this;
+      if((year()+y)%4==0){ // landar på en skottdag == 29
+	offset = double_julian_day(year()+y,2,29);
+	return *this;      
       }else{	
-	offset = mod_julian_day(year()+y,month(),28); // landar på ej skottår
+	offset = double_julian_day(year()+y,month(),28); // landar på ej skottår
 	return *this;
       }
     }else{ // inte börjat på skottdag
-      offset = mod_julian_day(year()+y,month(),day());
+      offset = double_julian_day(year()+y,month(),day());
       return *this;
     }
   }
   
   int Julian::days_in_month(int m) const{
+    if(m<0 || m>12){
+      throw std::out_of_range("month_out_of_range");
+    }
     
     switch (m){
     case 1:
@@ -208,14 +195,14 @@ namespace lab2{
     case 12:
       return 31;
 	break;
-	
     }
+    return -1;
   }
   
   int Julian::week_day() const{
-    return ((offset+2)%days_per_week())+1; //Kostsamt
+    return (static_cast<int>(floor(offset+0.5))%days_per_week())+1; //Kostsamt
   }
-
+  
   /* Hardcaoded - Dangerous! */
   int Julian::days_per_week() const{
     return 7;
@@ -252,10 +239,9 @@ namespace lab2{
     return tmp;
   }
   
-  /* ska kunna ta neg*/
   void Julian::add_one_month(){
     if(day()==31&&month()==7){
-      offset+=days_this_month();
+      offset+=31;
       return;
     }
     if(day()==31){
@@ -268,7 +254,7 @@ namespace lab2{
     }
     if(day()==29&&month()==1){
       if(is_leap_year()){
-	offset+=days_this_month();
+	offset+=31;
       }else{
 	offset+=30;
       }
@@ -307,13 +293,7 @@ namespace lab2{
   }
   
   bool Julian::is_leap_year() const{
-    if(year()%400==0){
-      return true;
-    }
-    if(year()%100==0){
-      return false;
-    }
-    if(year()%4==0){
+     if(year()%4==0){
       return true;
     }
     return false;
