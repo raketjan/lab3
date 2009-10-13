@@ -32,22 +32,24 @@ namespace lab2{
     int month = t->tm_mon +1;
     int day = t->tm_mday;
     offset = double_julian_day(year,month,day) ;    
-	std::cout << "setting offset 1 " << offset << std::endl;
+    //std::cout << "setting offset 1 " << offset << std::endl;
   }
 
   /* not checked if offset<0 */
   /* konstig */
   Gregorian::Gregorian(double o):Date(o) {
-    std::cout << "setting offset 3 " << offset << std::endl;
+    //std::cout << "setting offset 2 " << offset << std::endl;
   }
   
   /* ok */
   Gregorian::Gregorian(int y, int m, int d):Date(){
+    std::cout << "konstruktor 3. innan check_range" << std::endl;
     check_range(y,m,d);
+    std::cout << "konstruktor 3. efter check_range" << std::endl;
     //?
     //Date(double_julian_day(y, m, d));
     Date::offset = double_julian_day(y, m, d);
-    std::cout << "setting offset 2 " << offset << std::endl;
+    //std::cout << "setting offset 3 " << offset << std::endl;
   }
 
   Gregorian::~Gregorian(){
@@ -58,7 +60,7 @@ namespace lab2{
   }
   
   int Gregorian::year() const{
-    std::cout << "year(): offset: " << offset << std::endl; 
+    //std::cout << "year(): offset: " << offset << std::endl; 
     int p = floor(offset + 0.5);
     int s = p + 68569;
     int n = floor(4*s / 146097);
@@ -104,39 +106,38 @@ namespace lab2{
     return offset;
   }
   
-  /* borde heta julianday(...) */
-  double Gregorian::double_julian_day(int year, int month, int day) {
+  double Gregorian::double_julian_day(int y, int m, int d) {
     //check_range(year,month,day);
      
-        double ret = (1461 * (year + 4800 + (month - 14)/12))/4 +
-               (367 * (month - 2 - 12 * ((month - 14)/12)))/12 -
-               (3 * ((year + 4900 + (month - 14)/12)/100))/4 +
-               day - 32075;
+        double ret = (1461 * (y + 4800 + (m - 14)/12))/4 +
+               (367 * (m - 2 - 12 * ((m - 14)/12)))/12 -
+               (3 * ((y + 4900 + (m - 14)/12)/100))/4 +
+               d - 32075;
 
-	std::cout << "ret: " << ret << std::endl;
+	//	std::cout << "ret: " << ret << std::endl;
 	return ret;
 
   }
   
-  void Gregorian::check_range(int year, int month, int day) {
-    std::cout << "check range year " << year << std::endl;
+  void Gregorian::check_range(int year, int month, int day) const{
+    //std::cout << "check range year " << year << std::endl;
     if(year<1858||year>2558) {
       throw std::out_of_range("year_out_of_range");
     }
-    std::cout << "check range month " << month << std::endl;
+    //std::cout << "check range month " << month << std::endl;
     
     if(month<1||month>12){
       throw std::out_of_range("month_out_of_range");
     }
     /* Maybe needed 30/2 for example */
-    std::cout << "check range day " << day << std::endl;
-    std::cout << "days in month: " << days_in_month(month) << std::endl;    
+    //std::cout << "check range day " << day << std::endl;
+    //std::cout << "days in month: " << days_in_month(month) << std::endl;    
     if(day<1||day>days_in_month(year,month)){
-	std::cout << days_in_month(month) << std::endl;
-	std::cout << "im gonna throw up" << std::endl;
+      //std::cout << days_in_month(month) << std::endl;
+      //std::cout << "im gonna throw up" << std::endl;
       throw std::out_of_range("day_out_of_range");
     }
-    std::cout << "leaving check_range" << std::endl;
+    //    std::cout << "leaving check_range" << std::endl;
   }
   
   /*Working ?*/
@@ -185,6 +186,7 @@ namespace lab2{
   }
  
   int Gregorian::days_in_month(int y, int m) const{
+    
     if(m<1 || m>12){
       throw std::out_of_range("month_out_of_range");
     }
@@ -324,7 +326,7 @@ namespace lab2{
   }
 
   bool Gregorian::is_leap_year(int y) {
-	std::cout << "year " << y << std::endl; 
+    //std::cout << "year " << y << std::endl; 
         if(y % 4 == 0) {
             if(y % 100 == 0) {
                 if(y % 400 == 0) {

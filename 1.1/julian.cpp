@@ -22,8 +22,11 @@ namespace lab2{
   Julian::Julian(int o):Date(o) {
   }
   
-  Julian::Julian(int year, int month, int day)
-    :Date(double_julian_day(year, month, day)+1) {
+  Julian::Julian(int y, int m, int d):Date(){
+   std::cout << "konstruktor 3. innan check_range" << std::endl;
+   check_range(y,m,d);
+   std::cout << "konstruktor 3. efter check_range" << std::endl;
+   Date::offset = double_julian_day(y, m, d);
   }
 
   Julian::~Julian(){
@@ -101,7 +104,7 @@ namespace lab2{
       day - 1524.5;
   }
 
-  void Julian::check_range(int year, int month, int day) {
+  void Julian::check_range(int year, int month, int day) const{
     if(year<1858||year>2558) {
       throw std::out_of_range("year_out_of_range");
     }
@@ -109,7 +112,7 @@ namespace lab2{
       throw std::out_of_range("month_out_of_range");
     }
     /* Maybe needed 30/2 for example */
-    if(day<1||day>days_in_month(month)){
+    if(day<1||day>days_in_month(year,month)){
       throw std::out_of_range("day_out_of_range");
     }
   }
@@ -150,6 +153,10 @@ namespace lab2{
   }
   
   int Julian::days_in_month(int m) const{
+    return days_in_month(year(),m);
+  }
+  
+  int Julian::days_in_month(int y,int m) const{
     if(m<0 || m>12){
       throw std::out_of_range("month_out_of_range");
     }
@@ -159,10 +166,10 @@ namespace lab2{
       return 31;
       break;
     case 2:
-      if(is_leap_year()){
+      if(is_leap_year(y)){
 	return 29;
       }else{
-     return 28;
+	return 28;
       }
       break;
     case 3:
@@ -291,9 +298,13 @@ namespace lab2{
     
     return;
   }
-  
+
   bool Julian::is_leap_year() const{
-     if(year()%4==0){
+    return is_leap_year(year());
+  }
+  
+  bool Julian::is_leap_year(int y) const{
+     if(y%4==0){
       return true;
     }
     return false;

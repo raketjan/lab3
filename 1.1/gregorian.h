@@ -5,7 +5,7 @@
 namespace lab2{
   class Gregorian:public Date{
   private:
-    void check_range(int,int,int);
+    void check_range(int,int,int) const;
     static bool is_leap_year(int);
   protected:
     void add_one_month();

@@ -6,12 +6,14 @@ namespace lab2{
   class Julian:public Date{
   private:
     double greg_julian_day(int,int,int);
-    void check_range(int,int,int);
+    void check_range(int,int,int) const;
   protected:
     void add_one_month();
     void sub_one_month();
     bool is_leap_year() const;
+    bool is_leap_year(int) const;
     int days_in_month(int) const;
+    int days_in_month(int,int) const;
     static const std::string weekdaynames [];
     static const std::string monthnames [];
   public:
