@@ -60,21 +60,21 @@ namespace lab2{
   }
 
   bool operator==(const Date & d1,const Date &d2){
-    return d1.getOffset()==d2.getOffset();
+    return floor(0.5+d1.getOffset())==floor(0.5+d2.getOffset());
   }
   bool operator!=(const Date & d1,const Date &d2){
-    return d1.offset!=d2.offset;
+    return floor(0.5+d1.offset)!=floor(0.5+d2.offset);
   }
   bool operator<(const Date & d1,const Date &d2){
-    return d1.getOffset()<d2.getOffset();
+    return floor(0.5+d1.getOffset())<floor(0.5+d2.getOffset());
   }
   bool operator<=(const Date & d1,const Date &d2){
-    return d1.getOffset()<=d2.getOffset();
+    return floor(0.5+d1.getOffset())<=floor(0.5+d2.getOffset());
   }
   bool operator>(const Date & d1,const Date &d2){
-    return d1.getOffset()>d2.getOffset();
+    return floor(0.5+d1.getOffset())>floor(0.5+d2.getOffset());
   }
   bool operator>=(const Date & d1,const Date &d2){
-    return d1.getOffset()>=d2.getOffset();
+    return floor(0.5+d1.getOffset())>=floor(0.5+d2.getOffset());
   }
 }

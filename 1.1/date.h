@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <cstddef>
 #include "kattistime.h"
+#include <math.h>
 namespace lab2{
   class Date{
     /* friend? */
