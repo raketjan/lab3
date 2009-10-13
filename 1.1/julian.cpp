@@ -23,9 +23,7 @@ namespace lab2{
   }
   
   Julian::Julian(int y, int m, int d):Date(){
-   std::cout << "konstruktor 3. innan check_range" << std::endl;
    check_range(y,m,d);
-   std::cout << "konstruktor 3. efter check_range" << std::endl;
    Date::offset = double_julian_day(y, m, d);
   }
 
@@ -117,20 +115,6 @@ namespace lab2{
     }
   }
   
-  /* Working */
-     
-  Date & Julian::add_month(int m){
-    if(m<0){
-      for(int i=0;i<-m;++i){
-	sub_one_month();	
-      }
-    }else{    
-      for(int i=0;i<m;++i){
-	add_one_month();	
-      }
-    }
-    return *this;
-  }
   
   int Julian::days_this_month() const{
     return days_in_month(month());
@@ -245,9 +229,23 @@ namespace lab2{
     --offset;
     return tmp;
   }
-  
+  /* Working */
+     
+  Date & Julian::add_month(int m){
+    if(m<0){
+      for(int i=0;i<-m;++i){
+	sub_one_month();	
+      }
+    }else{    
+      for(int i=0;i<m;++i){
+	add_one_month();	
+      }
+    }
+    return *this;
+  }
+   
   void Julian::add_one_month(){
-    if(day()==31&&month()==7){
+    if((day()==31&&month()==7) || (day()==31&&month()==12)){
       offset+=31;
       return;
     }

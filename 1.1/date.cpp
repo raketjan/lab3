@@ -45,7 +45,7 @@ namespace lab2{
   }
 
   int operator-(const Date & d,const Date & d2){
-    return d.offset - d2.offset;
+    return floor(d.offset+0.5) - floor(0.5+d2.offset);
   }
   
  std::ostream & operator<<(std::ostream & os,const Date & date) {

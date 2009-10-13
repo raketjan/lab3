@@ -43,10 +43,7 @@ namespace lab2{
   
   /* ok */
   Gregorian::Gregorian(int y, int m, int d):Date(){
-    std::cout << "konstruktor 3. innan check_range" << std::endl;
     check_range(y,m,d);
-    std::cout << "konstruktor 3. efter check_range" << std::endl;
-    //?
     //Date(double_julian_day(y, m, d));
     Date::offset = double_julian_day(y, m, d);
     //std::cout << "setting offset 3 " << offset << std::endl;
@@ -138,20 +135,6 @@ namespace lab2{
       throw std::out_of_range("day_out_of_range");
     }
     //    std::cout << "leaving check_range" << std::endl;
-  }
-  
-  /*Working ?*/
-  Date & Gregorian::add_month(int m){
-    if(m<0){
-      for(int i=0;i<-m;++i){
-	sub_one_month();	
-      }
-    }else{    
-      for(int i=0;i<m;++i){
-	add_one_month();	
-      }
-    }
-    return *this;
   }
   
   int Gregorian::days_this_month() const{
@@ -270,13 +253,29 @@ namespace lab2{
     --offset;
     return tmp;
   }
-  
+
+
+  /*Working ?*/
+  Date & Gregorian::add_month(int m){
+    if(m<0){
+      for(int i=0;i<-m;++i){
+	sub_one_month();	
+      }
+    }else{    
+      for(int i=0;i<m;++i){
+	add_one_month();	
+      }
+    }
+    return *this;
+  }
+    
   /* ska kunna ta neg*/
   void Gregorian::add_one_month(){
-    if(day()==31&&month()==7){
+    if((day()==31&&month()==7) || (day()==31&&month()==12)){
       offset+=days_this_month();
       return;
     }
+    
     if(day()==31){
       offset+=30;
       return;
@@ -285,9 +284,10 @@ namespace lab2{
       offset+=30;
       return;
     }
+      
     if(day()==29&&month()==1){
       if(is_leap_year()){
-	offset+=days_this_month();
+	offset+=31;
       }else{
 	offset+=30;
       }
