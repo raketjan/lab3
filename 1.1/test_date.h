@@ -206,6 +206,15 @@ public:
         g5.add_month();
         g5.add_month();
         assert_date(g5, 1996, 3, 1, 5, 31, "friday", "march",4);
+	
+	Gregorian g6(1992, 2, 29);
+        g6.add_month(29);
+        assert_date(g6, 1994, 7, 28, 4, 31, "thursday", "july",3);
+
+	Gregorian g7(1993, 1, 29);
+        g7.add_month(1);
+        assert_date(g7, 1993, 2, 28, 7, 28, "sunday", "february",3);
+
     }
 
     void test_gregorian_add_year()
@@ -389,6 +398,17 @@ public:
         Julian j2(1984, 6, 7);
         TS_ASSERT_EQUALS(g2 - j2, 1);
         TS_ASSERT_EQUALS(j2 - g2, -1);
+    }
+
+    void x_test_julian_add_month()
+    {
+	std::cout << "TEST last" << std::endl;
+        Julian g1(2008, 3, 31);
+        g1.add_month(-8);
+        assert_date(g1, 2007, 8, 1, 3,  31, "wednesday", "august",0);
+        Julian g2(2008, 3, 31);
+        g2.add_month(-1);
+        assert_date(g2, 2008, 3, 1, 1,  31, "wednesday", "march",0);
 
     }
 private:
