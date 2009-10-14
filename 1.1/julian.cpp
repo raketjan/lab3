@@ -271,27 +271,53 @@ namespace lab2{
   }
   
   void Julian::sub_one_month(){
+    /*std::cerr << "subonemonth " << std::endl;
+    std::cerr << "date:  " << year() << "-"<<month()<<"-"<<day() << std::endl;
+    */
+    if((day()==31&&month()==1)||(day()==31&&month()==8)){
+      /*std::cerr << "in 31/1  or 31/8" << std::endl;
+	std::cerr << "sub 31" << std::endl;*/
+      offset-=31;
+      return;
+    }
+    if(day()==31){
+      /*
+      std::cerr << "in 31/X " << std::endl;
+      std::cerr << "sub 30" << std::endl;*/
+      offset-=30;
+      return;
+    }
     if(day()==30&&month()==3){
+      /*      std::cerr << "30/3 " << std::endl;
+	      std::cerr << "sub 30 " << std::endl;*/
       offset-=30;
       return;
     }
     if(day()==29&&month()==3){
-      if(is_leap_year()){
+      if(is_leap_year()){/*
+	std::cerr << "29/3 leapyear" << std::endl;
+	std::cerr << "sub 29" << std::endl;*/
 	offset-=29;	
-      }else{
-	offset-=30;
+      }else{/*
+	std::cerr << "29/3 not leapyear" << std::endl;
+	std::cerr << "sub 30 " << std::endl;*/
+	offset-=30; //?
       }
       return;
     }
     if(day()==28&&month()==3){
+      //      std::cerr << "4 " << std::endl;
       if(is_leap_year()){
 	offset-=29;
       }else{
+	//std::cerr << "5 " << std::endl;
 	offset-=28;
       }
       return;
     }
+
     int prev_month=(month()!=1)?month()-1:12;
+    //std::cerr << "none of above: subtract " << days_in_month(prev_month) << std::endl;
     offset-=days_in_month(prev_month);
     
     return;

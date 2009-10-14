@@ -10,7 +10,7 @@ all: test_$(VSN)
 cprog09lab22a:$(OBJECTS) cprog09lab22a.o
 	$(CC) $(CFLAGS) -o $@ $(OBJECTS) cprog09lab22a.o
 	./$@ < lab22a.in > ut
-	meld lab22a.out ut &
+	diff lab22a.out ut &
 
 test_date:$(OBJECTS) test_date.h
 	cxxtestgen.pl --error-printer -o $@.cpp test_date.h
@@ -32,6 +32,8 @@ test_stream:$(OBJECTS) test_stream.o
 %.o:%.cpp
 	$(CC) $(CFLAGS) -c $<
 
+kattis:
+	submit.py -p cprog09lab22a kattistime.h kattistime.cpp cprog09lab22a.cpp date.h date.cpp gregorian.h gregorian.cpp julian.h julian.cpp
 clean:
 	rm *.o test_$(VSN) $(VSN).cpp 
 	rm -r test_$(VSN)
