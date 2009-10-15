@@ -7,6 +7,11 @@ OBJECTS=$(SOURCES:.cpp=.o)
 
 all: test_$(VSN)
 
+test_calendar:$(OBJECTS) calendar.cpp calendar.h test_calendar.h calobj.h calobj.cpp
+	cxxtestgen.pl --error-printer -o $@.cpp $@.h
+	make $@.o
+	$(CC) $(CFLAGS) -o $@ $(OBJECTS) $@.o
+
 cprog09lab22a:$(OBJECTS) cprog09lab22a.o
 	$(CC) $(CFLAGS) -o $@ $(OBJECTS) cprog09lab22a.o
 	./$@ < lab22a.in > ut
@@ -18,16 +23,10 @@ cprog09lab22b:$(OBJECTS) cprog09lab22b.o
 cprog09lab22c:$(OBJECTS) cprog09lab22c.o
 	$(CC) $(CFLAGS) -o $@ $(OBJECTS) cprog09lab22c.o
 
-test_date:$(OBJECTS) test_date.h
-	cxxtestgen.pl --error-printer -o $@.cpp test_date.h
+test_date:$(OBJECTS) $@.h
+	cxxtestgen.pl --error-printer -o $@.cpp $@.h
 	make $@.o
 	$(CC) $(CFLAGS) -o $@ $(OBJECTS) $@.o
-
-
-test_$(VSN):$(OBJECTS) test_$(VSN).h
-	cxxtestgen.pl --error-printer -o $(VSN).cpp test_$(VSN).h
-	make $(VSN).o
-	$(CC) $(CFLAGS) -o $@ $(OBJECTS) $(VSN).o
 
 test_valgrind:test_$(VSN)
 	valgrind --leak-check=yes ./test_$(VSN)
