@@ -18,27 +18,21 @@ public:
     {
       std::cout << " starting test " << std::endl;
       Calendar<Gregorian> cal;
-      std::cout << " 0 " << std::endl;
       TS_ASSERT(cal.set_date(2009,10,2));
-      std::cout << " 1 " << std::endl;
       TS_ASSERT(cal.add_event("2009,10,2"));
-      std::cout << " 2 " << std::endl;
       TS_ASSERT(cal.add_event("2009,10,2 second"));
-      std::cout << " 3 " << std::endl;
       TS_ASSERT(cal.add_event("2009,10,3", 3));
-      std::cout << " 4 " << std::endl;
       TS_ASSERT(cal.add_event("2009,11,2", 2, 11));
-      std::cout << " 5 " << std::endl;
       TS_ASSERT(cal.add_event("2012,10,2", 2, 10, 2012));
-      std::cout << " 6 " << std::endl;
       TS_ASSERT_EQUALS(cal.add_event("ugly date", -1), false);
+      std::cout << "test_basic" << std::endl;
+      std::cout << cal;
+	
     }
 
-    void x_test_switch_date()
+    void test_switch_date()
     {
-      //std::cout << "test_basic" << std::endl;
-      //std::cout << cal;
-	
+      
         Calendar<Gregorian> cal;
         TS_ASSERT(cal.set_date(2009,2,3));
         TS_ASSERT(cal.add_event("2009,2,3"));
@@ -53,7 +47,7 @@ public:
         std::cout << cal;
     }
 
-    void x_test_add_event()
+    void test_add_event()
     {
         Calendar<Gregorian> cal;
         TS_ASSERT(cal.set_date(2035,8,18));
@@ -61,7 +55,7 @@ public:
     }
 
 
-    void x_test_remove_event()
+    void test_remove_event()
     {
         Calendar<Gregorian> cal;
         TS_ASSERT(cal.set_date(2035,8,18));
