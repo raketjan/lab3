@@ -25,8 +25,8 @@ namespace lab2{
     bool remove_event(std::string,int,int);
     bool remove_event(std::string,int);
     bool remove_event(std::string);
-    std::set<Calobj<T> > get_events() const;
-    T * get_today() const;
+    const std::set<Calobj<T> > & get_events() const;
+    const T * get_today() const;
     Calendar & operator=(const Calendar &);
     template <class S> Calendar<T> & operator=(const Calendar<S> & );
     

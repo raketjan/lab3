@@ -83,7 +83,7 @@ public:
 
     }
 
-    void x_test_operator_assign()
+    void test_operator_assign()
     {
         Calendar<Gregorian> cal;
         cal.add_event("hello1");
@@ -104,7 +104,7 @@ public:
         std::cout << cal2;
     }
 
-    void x_test_eat_this_mothafucka()
+    void test_eat_this_mothafucka()
     {
         Calendar<Gregorian> gcal;
         Calendar<Julian> jcal;
@@ -132,7 +132,7 @@ public:
         Calendar<Gregorian> gjcal(jcal);
         gjcal = gcal;
         std::cout << gjcal;
-
+	
     }
 
     void x_test_copy_constructor()

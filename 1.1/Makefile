@@ -12,6 +12,9 @@ test_calendar:$(OBJECTS) calendar.cpp calendar.h test_calendar.h calobj.h calobj
 	make $@.o
 	$(CC) $(CFLAGS) -o $@ $(OBJECTS) $@.o
 
+valgrind_calendar:test_calendar
+	valgrind --leak-check=yes ./$<
+	
 cprog09lab22a:$(OBJECTS) cprog09lab22a.o
 	$(CC) $(CFLAGS) -o $@ $(OBJECTS) cprog09lab22a.o
 	./$@ < lab22a.in > ut
