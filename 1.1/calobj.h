@@ -18,14 +18,15 @@ namespace lab2{
     bool add_event(std::string);
     bool remove_event(std::string);
     bool exist_event(std::string);
-    const std::list<std::string> & get_events() const;
-    
-    
+    const std::list<std::string> & get_events() const;    
     const T * get_date() const;
     Calobj & operator=(const Calobj<T> &);
   };
   template <typename T> bool operator==(const Calobj<T> &, const Calobj<T> &);
+  template <typename T> bool operator==(const Date &, const Calobj<T> &);
+  template <typename T> bool operator==(const Calobj<T> &,const Date &);
   template <typename T> bool operator<(const Calobj<T> &, const Calobj<T> &);
+  template <typename T> bool operator<(const Calobj<T> &, Date &);
   template <typename T> std::ostream & operator<<(std::ostream &, const Calobj<T> &);
   
 }

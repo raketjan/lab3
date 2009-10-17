@@ -30,6 +30,7 @@ namespace lab2{
     explicit Date(int);
     //Date & Date(const & d);
     Date(int months, int days_per_year );
+    Date & operator=(const Date &);
     virtual ~Date();
     Date & operator+=(int);
     Date & operator-=(int);

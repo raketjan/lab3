@@ -66,18 +66,34 @@ namespace lab2{
   }
   
   template <class T>  
+  bool operator==(const Date & d, const Calobj<T> & c2){
+    return d == *(c2.get_date());
+  }
+  
+  template <class T>  
+  bool operator==(const Calobj<T> & c2,const Date & d){
+    return d == *(c2.get_date());
+  }
+  
+  template <class T>  
   bool operator<(const Calobj<T> & c1,const Calobj<T> & c2){
     return *(c1.get_date()) < *(c2.get_date());
   }
-  
-  
+
   template <class T>  
+  bool operator<(const Calobj<T> & c1,Date & d){
+    return *(c1.get_date()) < d;
+  }
+  
+  
+  template <class T>
   std::ostream & operator<<(std::ostream & os, const Calobj<T> & co){    
     typename std::list<std::string>::const_iterator i = co.get_events().begin();
     for(; i != co.get_events().end(); ++i){
-      os << *(co.get_date()) << " : " << *i;
+      os << *(co.get_date()) << " : " << *i << std::endl;
       // töm buffer?
     }
+
     return os;
   }
   

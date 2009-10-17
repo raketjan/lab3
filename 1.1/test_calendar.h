@@ -12,7 +12,10 @@ public:
     void setUp()
     { 
       //time_t ut = time(0);
-      set_k_time(1600442475);
+      //set_k_time(1600442475);
+      //set_k_time(4126094164);
+      set_k_time(1255796638);
+	//set_k_time(0);
     }
     void test_basic()
     {
@@ -117,6 +120,8 @@ public:
         gcal.add_event("hello2",10,10);
         jcal.add_event("hello_j",5);
         jcal.add_event("hello_j");
+	jcal.add_event("hello_j");
+	jcal.add_event("hello_j");
         jcal.add_event("disco",5,5,2109);
         std::cout << "eat this" << std::endl;
         std::cout << "gcal" << std::endl;
@@ -129,14 +134,46 @@ public:
         std::cout << "gcal = jcal" << std::endl;
         std::cout << gcal;
         std::cout << "gjcal" << std::endl;
-        Calendar<Gregorian> gjcal(jcal);
-        gjcal = gcal;
-        std::cout << gjcal;
+	Calendar<Gregorian> gjcal(jcal);
+	gjcal = gcal;
+	std::cout << gjcal;
+
+	Calendar<Gregorian> x;
+	x.set_date(2009,10,17);
+	TS_ASSERT_EQUALS(x.add_event("XXXXX"),true);
+	TS_ASSERT_EQUALS(x.add_event("XXXXX",25),true);
+	TS_ASSERT_EQUALS(x.add_event("XXXXX",25,11),true);
+	TS_ASSERT_EQUALS(x.add_event("XXXXX",25,11),false);
+	std::cout << x;
+	
+
+	Calendar<Gregorian> ny;
+
+	ny.set_date(2100, 5, 15);
+
+	TS_ASSERT_EQUALS(ny.add_event("HOHOHOH",6,10,2100),true);
+	TS_ASSERT_EQUALS(ny.add_event("HOHOHOH",20,10,2100),true);
+	TS_ASSERT_EQUALS(ny.add_event("HOHOHOH",20,10,2100),false);
+	TS_ASSERT_EQUALS(ny.remove_event("HOHOHOH",20,10,2100),true);
+	TS_ASSERT_EQUALS(ny.remove_event("HOHOHOH",20,10,2100),false);
+	TS_ASSERT_EQUALS(ny.add_event("HOHOHOH",20,10,2100),true);
+	TS_ASSERT_EQUALS(ny.add_event("HOHOH",20,10,2110),true);
+	TS_ASSERT_EQUALS(ny.get_events().size(),2);
+	Gregorian * g = new Gregorian(2100,10,6);
+	std::cout << "DAGENS " << *(ny.get_today()) << std::endl;	
+	std::cout << ny;
+	
+	Calendar<Julian> nyj;
+	nyj.set_date(2000, 5, 15);
+	TS_ASSERT_EQUALS(nyj.add_event("nyj: HOHOHOH",6,10,2000),true);
+	std::cout << nyj;
+
 	
     }
 
     void x_test_copy_constructor()
     {
+     
         // TODO
         // Test with both gregorian to gregorian,
         // julian to julian and gregorian to julian

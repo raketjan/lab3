@@ -14,17 +14,18 @@ test_calendar:$(OBJECTS) calendar.cpp calendar.h test_calendar.h calobj.h calobj
 
 valgrind_calendar:test_calendar
 	valgrind --leak-check=yes ./$<
-	
-cprog09lab22a:$(OBJECTS) cprog09lab22a.o
-	$(CC) $(CFLAGS) -o $@ $(OBJECTS) cprog09lab22a.o
-	./$@ < lab22a.in > ut
-	diff lab22a.out ut &
+
+cprog09lab23:$(OBJECTS) cprog09lab23.o calendar.h calendar.cpp calobj.cpp calobj.h Makefile
+	$(CC) $(CFLAGS) -o $@ $(OBJECTS) $@.o
+	./$@ < lab23.in > ut
+	diff lab23.out ut &
 
 cprog09lab22b:$(OBJECTS) cprog09lab22b.o
 	$(CC) $(CFLAGS) -o $@ $(OBJECTS) cprog09lab22b.o
 
 cprog09lab22c:$(OBJECTS) cprog09lab22c.o
 	$(CC) $(CFLAGS) -o $@ $(OBJECTS) cprog09lab22c.o
+
 
 test_date:$(OBJECTS) $@.h
 	cxxtestgen.pl --error-printer -o $@.cpp $@.h

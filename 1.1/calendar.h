@@ -3,9 +3,12 @@
 #include <iostream>
 #include <stdlib.h>
 #include <stdexcept>
+#include <set>
 #include <cstddef>
 #include "kattistime.h"
 #include "calobj.h"
+#include <algorithm>
+
 namespace lab2{
   template <class T>
     class Calendar{

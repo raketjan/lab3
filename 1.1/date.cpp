@@ -7,7 +7,12 @@ namespace lab2{
     
   Date::Date(int o):offset(o){
     
-    }
+  }
+  
+  Date & Date::operator=(const Date & d){
+    offset=d.offset;
+    return *this;
+  }
   
   Date::~Date(){
     

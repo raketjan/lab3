@@ -12,16 +12,15 @@ namespace lab2{
 
   template <class T>
   bool Calendar<T>::set_date(int y,int m,int d){
-  // check_date(y, m, d);
-    if(y<1858 || y>2558 
-       || m < 1 || m>12 
-       || d<1 || d>31){
+    try{
+      
+      T * tmp = new T(y, m, d);
+      delete today;
+      today = tmp;
+      return true;
+    }catch(...){
       return false;
-    } 
-   T * tmp = new T(y, m, d);
-   delete today;
-   today = tmp;
-   return true;
+    }
   }
   
   template <class T>
@@ -34,9 +33,9 @@ namespace lab2{
       if(it!=events.end()){
 	Calobj<T> co2(*it);
 	events.erase(*it);
-	co2.add_event(e);
+	bool tmp = co2.add_event(e);
 	events.insert(co2);
-	return true;	
+	return tmp;	
       }else{
 	events.insert(co);
 	//går nog bra
@@ -44,7 +43,7 @@ namespace lab2{
       }      
     }catch(std::out_of_range&){
       return false;   
-    } 
+    }
   }
   
   template <class T>
@@ -64,8 +63,13 @@ namespace lab2{
   
   template <class T>
   bool Calendar<T>::remove_event(std::string e,int d,int m,int y){
-    std::cout << "remove_event: " << y<<"-"<<m<<"-"<<d << std::endl;
-    T * da = new T(y,m,d);
+    //std::cout << "remove_event: " << y<<"-"<<m<<"-"<<d << std::endl;
+    T * da;
+    try{
+      da = new T(y,m,d);
+    }catch(...){
+      return false;
+    }
     Calobj<T> co(da,e);
     typename std::set<Calobj<T> >::iterator it;
     it = find(events.begin(),events.end(),co);
@@ -116,22 +120,27 @@ namespace lab2{
     
   template <class T>
   Calendar<T> & Calendar<T>::operator=(const Calendar<T> & c){
-    //T * tmp_today = new T(c.get_today().year(),c.get_today().month(),c.get_today().day());
-    //today(tmp_today);
-    //*today(*(c.get_today()));
-    //events(c.get_events());
-    
+    *today = *(c.get_today());
+    events.empty();
+    events = c.get_events();
     return *this;
   }
   
   template <class T>
   template <class U>
   Calendar<T> & Calendar<T>::operator=(const Calendar<U> & c){
-    //events = c.get_events2();
-    
-    //today = new U(*(c.today));
-    //rerurnerar T
-    return *this;
+
+    *today = *(c.get_today());
+    events.empty();
+    typename std::set<Calobj<U> >::const_iterator i;
+    for(i = c.get_events().begin();
+	i != c.get_events().end();
+	++i){
+      Calobj<T> tmp(*i);
+      events.insert(tmp); // denna events har T      
+    }
+
+    return *this; // T
   }
   
   template <class T>
@@ -142,25 +151,35 @@ namespace lab2{
   template <class T>
   template <class U>
   Calendar<T>::Calendar(const Calendar<U> & c){
-    *today=*(c.get_today()); //*this = T 
+    //std::cout << "*get_today() " << *(c.get_today()) << std::endl;
+    //*today är inget datum än så gör en ny
+    T  * tmp = new T(*(c.get_today())); 
+    today = tmp;
     events.empty();
     typename std::set<Calobj<U> >::const_iterator i;
     for(i = c.get_events().begin();
 	i != c.get_events().end();
 	++i){
       Calobj<T> tmp(*i);
-      events.insert(tmp); // denna events har T
-      
+      events.insert(tmp); // denna events har T      
     }
+
   }
   
   template <class T>
   std::ostream & operator<<(std::ostream & os, const Calendar<T> & c){
-    //bara från dagens    
-    for(typename std::set<Calobj<T> >::const_iterator i = c.get_events().begin();//c.get_events().find(*(c.get_today()))
-	i != c.get_events().end(); 
+    //bara från dagens
+    Calobj<T> tmp(new T(c.get_today()->year(),c.get_today()->month(),c.get_today()->day()) , "xx");
+    typename std::set<Calobj<T> >::const_iterator i;
+    //i = find(c.get_events().begin(),c.get_events().end(),tmp);   
+    for(i = c.get_events().begin();
+    	i != c.get_events().end();
 	++i){
-      os << *i << std::endl;
+      if(*i < tmp ){
+	
+      }else{      
+	os << *i;
+      }
     }
     return os;
   }
