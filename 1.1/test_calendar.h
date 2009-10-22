@@ -89,9 +89,9 @@ public:
     void test_operator_assign()
     {
         Calendar<Gregorian> cal;
-        cal.add_event("hello1");
-        cal.add_event("hello2",10,10,2010);
-        cal.add_event("hello3");
+        TS_ASSERT(cal.add_event("hello1"));
+        TS_ASSERT(cal.add_event("hello2",10,10,2010));
+        TS_ASSERT(cal.add_event("hello3"));
         Calendar<Gregorian> cal2;
         cal2 = cal;
         std::cout << "test_operator_assign" << std::endl;
@@ -99,10 +99,10 @@ public:
         std::cout << cal;
         std::cout << "cal2: " << std::endl;
         std::cout << cal2;
-        cal2.set_date(2009,9,9);
+        TS_ASSERT(cal2.set_date(2009,9,9));
         cal2 = cal2;
-        cal2.add_event("hello1");
-        cal2.remove_event("hello2",10,10,2010);
+        TS_ASSERT(cal2.add_event("hello1"));
+        TS_ASSERT(cal2.remove_event("hello2",10,10,2010));
         std::cout << "cal2 again" << std::endl;
         std::cout << cal2;
     }
@@ -111,25 +111,25 @@ public:
     {
         Calendar<Gregorian> gcal;
         Calendar<Julian> jcal;
-        gcal.set_date(2010,12,12);
-        jcal.set_date(2009,4,4);
-        gcal.add_event("hello1");
-        gcal.add_event("hello1");
-        gcal.add_event("hello1",10);
-        gcal.add_event("hello2");
-        gcal.add_event("hello2",10,10);
-        jcal.add_event("hello_j",5);
-        jcal.add_event("hello_j");
-	jcal.add_event("hello_j");
-	jcal.add_event("hello_j");
-        jcal.add_event("disco",5,5,2109);
+        TS_ASSERT(gcal.set_date(2010,12,12));
+        TS_ASSERT(jcal.set_date(2009,4,4));
+        TS_ASSERT(gcal.add_event("hello1"));
+        TS_ASSERT_EQUALS(gcal.add_event("hello1"),false);
+        TS_ASSERT(gcal.add_event("hello1",10));
+        TS_ASSERT(gcal.add_event("hello2"));
+        TS_ASSERT(gcal.add_event("hello2",10,10));
+        TS_ASSERT(jcal.add_event("hello_j",5));
+        TS_ASSERT(jcal.add_event("hello_j"));
+	TS_ASSERT_EQUALS(jcal.add_event("hello_j"),false);
+	TS_ASSERT_EQUALS(jcal.add_event("hello_j"),false);
+        TS_ASSERT(jcal.add_event("disco",5,5,2109));
         std::cout << "eat this" << std::endl;
         std::cout << "gcal" << std::endl;
         std::cout << gcal;
         std::cout << "jcal" << std::endl;
         std::cout << jcal;
-        jcal.remove_event("disco",5,5,2109);
-        jcal.remove_event("hello_j");
+        TS_ASSERT(jcal.remove_event("disco",5,5,2109));
+        TS_ASSERT(jcal.remove_event("hello_j"));
         gcal = jcal;
         std::cout << "gcal = jcal" << std::endl;
         std::cout << gcal;
@@ -139,7 +139,7 @@ public:
 	std::cout << gjcal;
 
 	Calendar<Gregorian> x;
-	x.set_date(2009,10,17);
+	TS_ASSERT(x.set_date(2009,10,17));
 	TS_ASSERT_EQUALS(x.add_event("XXXXX"),true);
 	TS_ASSERT_EQUALS(x.add_event("XXXXX",25),true);
 	TS_ASSERT_EQUALS(x.add_event("XXXXX",25,11),true);
@@ -149,36 +149,74 @@ public:
 
 	Calendar<Gregorian> ny;
 
-	ny.set_date(2100, 5, 15);
-
+	TS_ASSERT(ny.set_date(2100, 5, 15));
+	TS_ASSERT_EQUALS(ny.get_today()->day(),15);
+	TS_ASSERT(ny.set_date(2100, 5, 16));
+	TS_ASSERT_EQUALS(ny.get_today()->day(),16);
+	TS_ASSERT(ny.set_date(2099, 1, 1));
+	TS_ASSERT_EQUALS(ny.get_today()->day(),1);
+	TS_ASSERT_EQUALS(ny.set_date(2100, 2, 29),false);
+	TS_ASSERT_EQUALS(ny.get_today()->day(),1);
+	TS_ASSERT_EQUALS(ny.get_today()->month(),1);
+	TS_ASSERT_EQUALS(ny.get_today()->year(),2099);
 	TS_ASSERT_EQUALS(ny.add_event("HOHOHOH",6,10,2100),true);
 	TS_ASSERT_EQUALS(ny.add_event("HOHOHOH",20,10,2100),true);
+
 	TS_ASSERT_EQUALS(ny.add_event("HOHOHOH",20,10,2100),false);
 	TS_ASSERT_EQUALS(ny.remove_event("HOHOHOH",20,10,2100),true);
 	TS_ASSERT_EQUALS(ny.remove_event("HOHOHOH",20,10,2100),false);
 	TS_ASSERT_EQUALS(ny.add_event("HOHOHOH",20,10,2100),true);
+
 	TS_ASSERT_EQUALS(ny.add_event("HOHOH",20,10,2110),true);
-	TS_ASSERT_EQUALS(ny.get_events().size(),2);
-	Gregorian * g = new Gregorian(2100,10,6);
-	std::cout << "DAGENS " << *(ny.get_today()) << std::endl;	
+	TS_ASSERT_EQUALS(ny.get_events().size(),3);
 	std::cout << ny;
 	
 	Calendar<Julian> nyj;
-	nyj.set_date(2000, 5, 15);
+	TS_ASSERT(nyj.set_date(2000, 5, 15));
 	TS_ASSERT_EQUALS(nyj.add_event("nyj: HOHOHOH",6,10,2000),true);
 	std::cout << nyj;
 
 	
     }
 
-    void x_test_copy_constructor()
+    void test_copy_constructor()
     {
-     
-        // TODO
-        // Test with both gregorian to gregorian,
+      Calendar<Julian> nyj;
+      TS_ASSERT(nyj.set_date(2100, 5, 15));
+      TS_ASSERT_EQUALS(nyj.add_event("blabla"),true);
+      Calendar<Gregorian> nyg(nyj);
+      TS_ASSERT_EQUALS(nyg.get_today()->day(),29);
+      TS_ASSERT_EQUALS(nyg.get_today()->month(),5);
+      TS_ASSERT_EQUALS(nyg.get_today()->year(),2100);
+      
+      Calendar<Julian> nyj2(nyg);
+      TS_ASSERT_EQUALS(nyj2.get_today()->day(),15);
+      TS_ASSERT_EQUALS(nyj2.get_today()->month(),5);
+      TS_ASSERT_EQUALS(nyj2.get_today()->year(),2100);
+      
+      Calendar<Julian> nyj3(nyj);
+      TS_ASSERT_EQUALS(nyj3.get_today()->day(),15);
+      TS_ASSERT_EQUALS(nyj3.get_today()->month(),5);
+      TS_ASSERT_EQUALS(nyj3.get_today()->year(),2100);
+      std::cout << nyg << std::endl;
+      
+      // TODO
+      // Test with both gregorian to gregorian,
         // julian to julian and gregorian to julian
     }
 
+    void test_critical(){
+      Calendar<Gregorian> c;
+      c.set_date(2100,9,21);
+      c.set_date(2100,9,23);
+      c.set_date(2100,9,21);
+      TS_ASSERT_EQUALS(c.add_event("blabla1",22,9,2100),true);
+      TS_ASSERT_EQUALS(c.add_event("blabla2",22,9,2100),true);
+      TS_ASSERT_EQUALS(c.add_event("blabla3",20,11,2100),true);
+      TS_ASSERT_EQUALS(c.add_event("blala4"),true);
+      std::cout << c;
+    }
+    
     void x_test_destructor()
     {
         // TODO

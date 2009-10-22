@@ -18,7 +18,7 @@ valgrind_calendar:test_calendar
 cprog09lab23:$(OBJECTS) cprog09lab23.o calendar.h calendar.cpp calobj.cpp calobj.h Makefile
 	$(CC) $(CFLAGS) -o $@ $(OBJECTS) $@.o
 	./$@ < lab23.in > ut
-	diff lab23.out ut &
+	meld lab23.out ut &
 
 cprog09lab22b:$(OBJECTS) cprog09lab22b.o
 	$(CC) $(CFLAGS) -o $@ $(OBJECTS) cprog09lab22b.o
@@ -47,11 +47,10 @@ kattisb:
 	submit.py -p cprog09lab22b kattistime.h kattistime.cpp cprog09lab22b.cpp date.h date.cpp gregorian.h gregorian.cpp 
 kattisc:
 	submit.py -p cprog09lab22c kattistime.h kattistime.cpp cprog09lab22c.cpp date.h date.cpp gregorian.h gregorian.cpp julian.h julian.cpp
+
+kattisd:
+	submit.py -p cprog09lab23 kattistime.h kattistime.cpp cprog09lab23.cpp date.h date.cpp gregorian.h gregorian.cpp julian.h julian.cpp calobj.h calendar.h
+
 clean:
-	rm *.o test_$(VSN) $(VSN).cpp 
-	rm -r test_$(VSN)
-	rm -r test_stream
-	rm test_date
-	rm cprog09lab22a	
-	rm cprog09lab22b
-	rm cprog09lab22c
+	rm *.o
+	rm cprog09lab23

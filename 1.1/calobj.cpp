@@ -1,10 +1,7 @@
-
-namespace lab2{
-  
-  template <class T>
-  Calobj<T>::Calobj(T * d,std::string e):date(d){
-    add_event(e);
-  }
+template <class T>
+Calobj<T>::Calobj(T * d,std::string e):date(d){
+  add_event(e);
+}
   
   template <class T>
   Calobj<T>::~Calobj(){
@@ -81,10 +78,23 @@ namespace lab2{
   }
 
   template <class T>  
+  bool operator<=(const Calobj<T> & c1,const Calobj<T> & c2){
+    return *(c1.get_date()) <= *(c2.get_date());
+  }
+
+template <class T>  
+  bool operator>(const Calobj<T> & c1,const Calobj<T> & c2){
+    return *(c1.get_date()) > *(c2.get_date());
+  }
+template <class T>  
+  bool operator>(const Calobj<T> & c1,const Date & d){
+    return *(c1.get_date()) > d;
+  }
+
+  template <class T>  
   bool operator<(const Calobj<T> & c1,Date & d){
     return *(c1.get_date()) < d;
   }
-  
   
   template <class T>
   std::ostream & operator<<(std::ostream & os, const Calobj<T> & co){    
@@ -108,4 +118,4 @@ namespace lab2{
     return false;
   }  
   
-}
+
