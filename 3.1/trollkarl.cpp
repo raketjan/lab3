@@ -3,7 +3,7 @@
 namespace advgame{
 
   Trollkarl::Trollkarl(int h,string namn) : Hero(h,namn)  {
-  
+    parser = new Parser();
   }
   
   Trollkarl::~Trollkarl() {}
@@ -29,9 +29,9 @@ namespace advgame{
       if (*it != this && it < getPlace()->getGubbar().end() -1) cout << ", ";
     }
     cout << endl;
-    cout << "Vad vill du göra " << name() << " ? ";
-    // Parser.parse(cin.getLine());
-
+    cout << "Vad vill du göra ?   ";
+    parser->parse();
+    cout << "Tillbaka i trollkarl !" << endl;
   }
   
   int Trollkarl::fight(Actor * motst) {

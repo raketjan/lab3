@@ -4,10 +4,13 @@
 #include "hero.h"
 #include "place_actor.h"
 #include "item.h"
+#include "parser.h"
+
 using namespace std;
 namespace advgame{
   class Trollkarl : public Hero{
   public:
+    Parser * parser;
     Trollkarl(int,string);
     virtual ~Trollkarl();
     virtual void action();

@@ -10,7 +10,7 @@ using namespace std;
 namespace advgame{
   class Parser {
   public:
-    void parse(string);
+    void parse();
   };
 }
 

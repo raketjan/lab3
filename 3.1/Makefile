@@ -5,7 +5,7 @@ SOURCES=container.cpp item.cpp indoors.cpp rum.cpp trollkarl.cpp game.cpp hero.c
 OBJECTS=$(SOURCES:.cpp=.o)
 HEADERS=$(SOURCES:.cpp=.h)
 
-all:components
+all:supergame
 
 components:place.o actor.o $(OBJECTS) $(HEADERS) place_actor.h Makefile
 
