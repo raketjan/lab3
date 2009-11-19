@@ -3,29 +3,20 @@
 namespace advgame{
 
   Monster::Monster(int h,string namn) : Npc(h,namn)  {
-  
   }
   
   Monster::~Monster() {}
   
   void Monster::action() {
-    /*if (rand() % 2 == 0) {
+    if (rand() % 2 == 0) {
       int godirection = rand() % getPlace()->getExits().size();
-      go(getPlace()->getExits()[godirection]);
-      }*/
-    //go(west);
-      
+      map<string, Place *>::const_iterator it = getPlace()->getExits().begin();
+      for (int i = 0; i < godirection; ++i) ++it;
+      go(it->first);
+    }
   }
   
   int Monster::fight(Actor * motst) {
-    
-  }
-  
-  Item & Monster::pick_up(Item * pryl) {
-    
-  }
-
-  Item & Monster::drop(Item * pryl) {
     
   }
   

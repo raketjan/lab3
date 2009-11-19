@@ -12,8 +12,6 @@ namespace advgame{
     virtual ~Monster();
     virtual void action();
     virtual int fight(Actor *);
-    virtual Item& pick_up(Item *);
-    virtual Item& drop(Item *);
     virtual void talk_to(Actor *);
   };
 }

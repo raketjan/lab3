@@ -9,8 +9,6 @@ namespace advgame{
     Npc(int,string);
     virtual void action() = 0;
     virtual int fight(Actor *) = 0;
-    virtual Item& pick_up(Item *) = 0;
-    virtual Item& drop(Item *) = 0;
     virtual void talk_to(Actor *) = 0;
   };
 }

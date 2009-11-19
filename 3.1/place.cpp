@@ -1,8 +1,7 @@
 #include "place_actor.h"
 
 namespace advgame{
-  Place::Place(string n,string d):
-    name(n),m_description(d)
+  Place::Place(string n,string d):name(n),m_description(d)
   {
   }
   
@@ -23,11 +22,11 @@ namespace advgame{
   string Place::getDescription() const{
     return m_description;
   }
-  void Place::setExit(Direction e,Place * p){
+  void Place::setExit(string e,Place * p){
     exits[e]=p;
   }
   
-  map<Direction,Place *> & Place::getExits(){
+  map<string,Place *> & Place::getExits(){
     return exits;
   }
   

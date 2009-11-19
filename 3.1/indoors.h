@@ -10,7 +10,7 @@ namespace advgame{
   public:
     Indoors(string, string);
     virtual ~Indoors();
-    virtual Place & neighbour(Direction direction) = 0;
+    virtual Place & neighbour(string direction) = 0;
     virtual void enter(Actor *) = 0;
     virtual void leave(Actor *) = 0;
     virtual Item & pick_up(Item *) = 0;

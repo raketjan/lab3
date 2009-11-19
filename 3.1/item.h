@@ -7,11 +7,11 @@ using namespace std;
 namespace advgame{
   class Item{
   private:
-    int weight, price;
-    string name;
+    string name; 
     string description;
-  public:
-    
+    int weight;
+    int price;
+   public:
     Item(string,string,int,int);
     virtual ~Item();
     int getWeight() const;
@@ -19,6 +19,8 @@ namespace advgame{
     string getDescription() const;
     string getName() const;
    };
+  bool operator==(const string , const Item *);
+  bool operator==(const Item *, const string);
 }
 
 #endif

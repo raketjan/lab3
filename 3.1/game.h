@@ -6,9 +6,9 @@
 #include "trollkarl.h"
 #include "monster.h"
 #include "location.h"
+#include "parser.h"
 #include <vector>
 #include <time.h>
-
 
 using namespace std;
 namespace advgame{
@@ -16,15 +16,24 @@ namespace advgame{
   private:
     vector<Place *> places;
     vector<Actor *> actors;
+    /*Borde nog ersätta sctors */
+    map<string,Actor *> actorMap;
+    map<string, Item *> itemMap;
+    typedef void (Actor::*actorFuncP)(string);
+    map<string, actorFuncP> actionMap;
+    
     /* or map? */
+    Parser * parser;
     string description;
     int clock;
     void getInput();
     void parse();
     void act();
     void init();
+    void initActions();
   public:
     void loop();
+    map<string, Item*> & getItemMap();
     Game();
     ~Game();
   };

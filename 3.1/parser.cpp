@@ -1,30 +1,45 @@
 #include "parser.h"
 
 namespace advgame{
-  void Parser::parse() {
-    string *  token = new string[3];
+  /*
+    Parsern måste ha tillgång till
+    mappar med kommandon och actors
+    Kan ta en string istället med mappen
+  */
+  void Parser::parse(Actor * player) {
 
-    for (int i = 0; i < 3; i++) {
-      cin >> token[i]; 
-      cout << token[i];
+    string token;
+    cin >> token;   
+    if (token == "gå") {
+      cin >> token;
+      if (token =="åt") cin >> token;
+      player->go(token);
+      //(actorMap[player]->*actionMap["go"])(token);
     }
-    // cin >> token[0];
-    // cin >> token[1];
-    // cin >> token[2];
-
-    if (token[0] == "gå") {
-      cout << "du vill gå åt " << token[1] << endl;
-    } else if (token[0] == "ta") {
-      cout << "du vill ta " << token[1] << endl;
-    }  else if (token[0] == "undersök") {
-      cout << "du vill undersöka " << token[1] << endl;
-    } else if (token[0] == "prata") {
-      cout << "du vill prata med " << token[2] << endl;
-    } else if (token[0] == "anfall") {
-      cout << "du vill anfalla " << token[1] << endl;
+    /*
+    else if (token == "ta") {
+      cin >> token;
+     if (token =="upp") cin >> token;
+     (player->*mappen["ta"])(token);
+     
+    }else if (token == "släng") {
+      cin >> token;
+      if (token == "iväg") cin >> token;
+      (player->*mappen["drop"])(token);
+    }else if (token == "undersök") {
+      cin >> token;
+      cout << "du vill undersöka " << token << endl;
+      (player->*mappen["undersök"])(token);
+    }else if (token == "prata") {
+      cin >> token;
+      cout << "du vill prata med " << token << endl;
+    }else if (token == "anfall") {
+      cin >> token;
+      cout << "du vill anfalla " << token << endl;
     } 
-
-    }
+    */
+    
+}
 
 
 }

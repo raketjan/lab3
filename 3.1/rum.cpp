@@ -8,7 +8,7 @@ namespace advgame{
   
   Rum::~Rum(){}
   
-  Place & Rum::neighbour(Direction direction) {
+  Place & Rum::neighbour(string direction) {
   }
   
   void Rum::enter(Actor *) {
