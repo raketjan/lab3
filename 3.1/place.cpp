@@ -1,11 +1,14 @@
 #include "place_actor.h"
 
 namespace advgame{
-  Place::Place(string n,string d):name(n),m_description(d)
+  Place::Place(string n,string d):
+    Thing(),name(n),m_description(d)
   {
+    
   }
   
   Place::~Place(){
+    
   }
   
   void Place::setName(string n){

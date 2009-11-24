@@ -5,16 +5,16 @@
 #include <iostream>
 #include <map>
 #include "item.h"
+#include "thing.h"
 #include <algorithm>
 using namespace std;
 namespace advgame{
 
   class Actor;
-  class Place{
+  class Place : public Thing{
     map<string,Place *> exits;
-    string name;    
-    string m_description;
-    
+    string name;
+    string m_description;   
     vector<Item *> stuff;
     vector<Actor *> gubbar;
   public:
@@ -35,36 +35,47 @@ namespace advgame{
     string getDescription() const;
     vector<Item *> & getStuff();
     void addStuff(Item *);
+    virtual string save() = 0;
     
   };
   
-  class Actor{
+  class Actor : public Thing{
   private:
-    int strength;
     int hp;    
     string m_name;
     string m_type;
     vector<Item *> possessions;
     Place * whereAt;
-  public:   
+    map<string, Thing *> * thingMap;
+    vector<Actor*> *actors;
+  public:
+
     Actor(int,string);
+    void setThingMap( map<string, Thing *>*);
+    map<string, Thing *> & getThingMap();
+    void setActors( vector<Actor *>*);
+    vector<Actor*> & getActors();
+    virtual ~Actor();
     string type();
     string name() const;
     Place * getPlace() const;
     void setPlace(Place *);
-    int getStrength()const;
-    void setStrength(int);
+    int getHp()const;
+    void setHp(int);
     void go(string);
     virtual void action()= 0;
-    virtual int fight(Actor *) = 0;
+    virtual void fight(string) = 0;
     void pick_up(string);
     void drop(string);
     void examine(string);
-    virtual void talk_to(Actor *) = 0;
+    virtual void talk_to(string) = 0;
     vector<Item *>& getPossessions();
-    
+  public:
+    virtual string save() = 0;
   };
+
+  bool operator==(const string , const Actor *);
+  bool operator==(const Actor *, const string);
+
 }
-
 #endif
-

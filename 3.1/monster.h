@@ -11,8 +11,10 @@ namespace advgame{
     Monster(int,string);
     virtual ~Monster();
     virtual void action();
-    virtual int fight(Actor *);
-    virtual void talk_to(Actor *);
+    virtual void fight(string);
+    virtual void talk_to(string);
+    virtual string save();
+  
   };
 }
 

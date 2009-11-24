@@ -1,8 +1,26 @@
 #include "place_actor.h"
 
 namespace advgame{
-  Actor::Actor(int h,string namn):hp(h),m_name(namn){
+  Actor::Actor(int h,string namn):
+    Thing(),hp(h),m_name(namn){
+    
   }
+  Actor::~Actor(){
+
+  }
+  void Actor::setThingMap( map<string, Thing *>* tm){
+    thingMap=tm;
+  }
+  map<string, Thing *> & Actor::getThingMap(){
+    return *thingMap;
+  }
+  void Actor::setActors(vector<Actor *>*a){
+    actors = a;
+  }
+  vector<Actor*> & Actor::getActors(){
+    return *actors;
+  }
+    
 
   string Actor::name() const {
     return m_name;
@@ -15,10 +33,10 @@ namespace advgame{
 	minpos=i;
       }
     }
-    cout << name() << " vill gå åt " << d << endl;
+   
     map<string, Place *>::iterator it = whereAt->getExits().find(d);
     if(it != whereAt->getExits().end()){
-      cout << name() << " går " << d << endl;
+   
       whereAt->getGubbar().erase(whereAt->getGubbar().begin()+minpos);
       whereAt = it->second;
       whereAt->addGubbe(this);
@@ -26,6 +44,7 @@ namespace advgame{
     }else{
       cout << "Kan inte gå ditåt" << endl;
     }
+   
   }
   
   Place * Actor::getPlace() const {
@@ -41,12 +60,12 @@ namespace advgame{
     return possessions;
   }
 
-  void Actor::setStrength(int s){
-    strength = s;
+  void Actor::setHp(int s){
+    hp = s;
   }
 
-  int Actor::getStrength() const{
-    return strength;
+  int Actor::getHp() const{
+    return hp;
   }
 
   void Actor::pick_up(string s) {
@@ -81,7 +100,7 @@ namespace advgame{
     cout << name() << " försöker undersöka " << s << endl;
     // Bär jag den själv ?
     vector<Item *>::iterator it1 = find(getPossessions().begin(),getPossessions().end(),s);
-     vector<Item *>::iterator it2 = find(whereAt->getStuff().begin(),whereAt->getStuff().end(),s);
+    vector<Item *>::iterator it2 = find(whereAt->getStuff().begin(),whereAt->getStuff().end(),s);
     if(it1 != getPossessions().end()) {
       cout << name() << " Jag hade den ! " << s << endl; 
       cout << (*it1)->getDescription() << endl;
@@ -92,4 +111,13 @@ namespace advgame{
     
     } else cout << "Du ser inte nån " << s << " här !!!" << endl;
   }     
+
+  bool operator==(const string s, const Actor * a2) {
+    return s == a2->name();
+  }
+
+  bool operator==(const Actor * a1, const string s) {
+    return s == a1->name();
+  }
+
 }

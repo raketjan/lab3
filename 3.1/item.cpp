@@ -3,8 +3,8 @@
 namespace advgame{
 
 
-Item::Item(string namn, string beskrivning, int vikt, int pris) : 
-  name(namn), description(beskrivning), weight(vikt), price(pris) {}
+  Item::Item(string namn, string beskrivning, int vikt, int pris):
+    name(namn), description(beskrivning), weight(vikt), price(pris) {}
 
   Item::~Item() {}
 
@@ -23,9 +23,12 @@ std::string Item::getDescription() const {
 std::string Item::getName() const {
   return name;
 }
-
+  std::string Item::save(){
+    
+  }
+  
   bool operator==(const string s, const Item * i2) {
-  return s == i2->getName();
+    return s == i2->getName();
   }
   bool operator==(const Item * i1, const string s) {
   return s == i1->getName();

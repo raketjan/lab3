@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "place_actor.h"
+
 using namespace std;
 namespace advgame{
   
@@ -15,6 +16,7 @@ namespace advgame{
     virtual void leave(Actor *) = 0;
     virtual Item & pick_up(Item *) = 0;
     virtual Item & drop(Item *) = 0;
+    virtual string save() = 0;
   };
 }
 

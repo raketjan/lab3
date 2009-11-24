@@ -3,9 +3,10 @@
 #include <vector>
 #include <stdlib.h>
 #include <iostream>
+#include "thing.h"
 using namespace std;
 namespace advgame{
-  class Item{
+  class Item : public Thing{
   private:
     string name; 
     string description;
@@ -18,6 +19,7 @@ namespace advgame{
     int getPrice() const;
     string getDescription() const;
     string getName() const;
+    virtual string save();
    };
   bool operator==(const string , const Item *);
   bool operator==(const Item *, const string);

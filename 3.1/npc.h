@@ -8,8 +8,10 @@ namespace advgame{
   public:
     Npc(int,string);
     virtual void action() = 0;
-    virtual int fight(Actor *) = 0;
-    virtual void talk_to(Actor *) = 0;
+    virtual void fight(string) = 0;
+    virtual void talk_to(string) = 0;
+    virtual string save() = 0;
+    virtual ~Npc();
   };
 }
 

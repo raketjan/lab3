@@ -22,5 +22,7 @@ namespace advgame{
   
   Item & Rum::drop(Item *) {
   }
-  
+  string Rum::save(){
+    
+  }  
 }

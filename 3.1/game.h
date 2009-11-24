@@ -7,20 +7,23 @@
 #include "monster.h"
 #include "location.h"
 #include "parser.h"
+#include "thing.h"
 #include <vector>
 #include <time.h>
 
+
 using namespace std;
 namespace advgame{
+
   class Game{
   private:
     vector<Place *> places;
-    vector<Actor *> actors;
+    vector<Actor *> * actors;
     /*Borde nog ersätta sctors */
-    map<string,Actor *> actorMap;
-    map<string, Item *> itemMap;
+
+    map<string, Thing *> * thingMap;
     typedef void (Actor::*actorFuncP)(string);
-    map<string, actorFuncP> actionMap;
+    map<string, actorFuncP> * actorFuncMap;
     
     /* or map? */
     Parser * parser;
@@ -33,7 +36,6 @@ namespace advgame{
     void initActions();
   public:
     void loop();
-    map<string, Item*> & getItemMap();
     Game();
     ~Game();
   };

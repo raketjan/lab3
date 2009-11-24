@@ -4,4 +4,7 @@ namespace advgame{
   Npc::Npc(int h,string namn) : Actor(h,namn){
     
   }
+  Npc::~Npc(){
+
+  }
 }

@@ -5,11 +5,7 @@ namespace advgame{
      Trollkarl måste ha tillgång till 
      Actions och actorsmappen
   */
-  Trollkarl::Trollkarl(int h,string namn) : Hero(h,namn){
-    parser = new Parser();
-    // hur skall dett gå till
-    //parser->setActorMap(...);
-    //parser->setActionMap(...);
+  Trollkarl::Trollkarl(int h,string namn, Parser * p, map<string, Thing*> * thMap) : Hero(h,namn), parser(p), thingMap(thMap){
   }
   
   Trollkarl::~Trollkarl() {}
@@ -47,16 +43,31 @@ namespace advgame{
     }
     cout << endl;
     cout << "Vad vill du göra ?   ";
-    //parser->parse(name());
     parser->parse(this);
+    //getGame->parser->parse(this);
   }
   
-  int Trollkarl::fight(Actor * motst) {
+  void Trollkarl::fight(string motst){
+    cout << "inne i trollkarl.fight() !!!" << endl;
+    Actor * motstP; 
+    Thing * tmp = (*thingMap)[motst];
+    motstP = static_cast<Actor *>(tmp);
+    // har jag ett vapen ?
+    string tjo = "svärd";
+    vector<Item *>::iterator it = find(getPossessions().begin(),getPossessions().end(),tjo);
+    
+    if (it != getPossessions().end()){
+      motstP->setHp(motstP->getHp() - 100);
+    }else{ 
+      motstP->setHp(motstP->getHp() - 50);
+    }
+    cout << motst << " har nu " << motstP->getHp() << " hitpoints !";
     
   }
   
-  void Trollkarl::talk_to(Actor * pratkvarn) {
+  void Trollkarl::talk_to(string pratkvarn){
+  }
 
-    
+  string Trollkarl::save(){
   }
 }

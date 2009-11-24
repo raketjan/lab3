@@ -13,7 +13,7 @@ namespace advgame{
     virtual void leave(Actor *);
     virtual Item & pick_up(Item *);
     virtual Item & drop(Item *);
-    
+    virtual string save();
   };
 }
 
