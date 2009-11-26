@@ -45,28 +45,24 @@ namespace advgame{
     string namnet, beskrivningen;
     cout << "Vad ska du heta ?" << endl;
     cin >> namnet;
-    Trollkarl * player = new Trollkarl(1000, namnet, parser, thingMap);
+    Trollkarl * player = new Trollkarl(50, namnet, parser, thingMap);
     (*thingMap)[namnet]=player;
     player->setPlace(sovrum);
     player->setActors(actors);    
-    Monster * argOrm = new Monster(50, "Ormbengt");
+    Worm * argOrm = new Worm(50, "Ormbengt");
     (*thingMap)["Ormbengt"]=argOrm;
     argOrm->setThingMap(thingMap);
     argOrm->setActors(actors);
     argOrm->setPlace(sovrum);
-    argOrm->pick_up("svärd");
+    argOrm->pick_up("svärd");    
     Monster * vildaPonnyn = new Monster(50, "Vildaponnyn");
     vildaPonnyn->setThingMap(thingMap);
     (*thingMap)["Vildaponnyn"]=vildaPonnyn;
     vildaPonnyn->setActors(actors);
     vildaPonnyn->setPlace(vardagsrum);
-    cout << "player: " << player << endl;
-    cout << "argOrm: " << argOrm << endl;
-    cout << "vildaPonnyn: " << vildaPonnyn << endl;
     actors->push_back(player);
-    actors->push_back(argOrm);
     actors->push_back(vildaPonnyn);
-
+    actors->push_back(argOrm);
   }
   
   void Game::getInput(){
@@ -77,25 +73,10 @@ namespace advgame{
     while(true){
       cout << endl;
       cout << "------------------- Omgång " << clock << " ---------------" << endl;
-      /*
-      for (vector<Actor *>::iterator it = actors->begin();
-	   it!=actors->end() ;
-	   ++it) 
-	{
-	  
-	  if((*it)->getHp() <= 0){
-	    cout << "delete på " << *it << endl;
-	    delete *it;
-	    cout << "tillbaka från deleten" << endl;
-	  }else{
-	    cout << "----- " << (*it)->name() << "s tur -----" << endl;
-	    (*it)->action();
-	  }
-	  cout << "----- actors.size()-----" << actors->size() << endl;
-	  cout << "----- slut på tur-----"  << endl;
-	  }*/
       for(size_t i =0;i<actors->size();++i){
+	cout << "spelare " << i <<  "s tur" << endl;
 	if((*actors)[i]->getHp() <=0 ) {
+	  cout << "delete " << (*actors)[i]->name()<< endl;
 	  delete (*actors)[i];
 	}else{
 	  (*actors)[i]->action();

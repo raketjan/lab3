@@ -9,7 +9,6 @@
 #include <algorithm>
 using namespace std;
 namespace advgame{
-
   class Actor;
   class Place : public Thing{
     map<string,Place *> exits;
@@ -49,7 +48,6 @@ namespace advgame{
     map<string, Thing *> * thingMap;
     vector<Actor*> *actors;
   public:
-
     Actor(int,string);
     void setThingMap( map<string, Thing *>*);
     map<string, Thing *> & getThingMap();

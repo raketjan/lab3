@@ -49,7 +49,7 @@ namespace advgame{
   
   void Trollkarl::fight(string motst){
     cout << "inne i trollkarl.fight() !!!" << endl;
-    Actor * motstP; 
+    Actor * motstP;
     Thing * tmp = (*thingMap)[motst];
     motstP = static_cast<Actor *>(tmp);
     // har jag ett vapen ?

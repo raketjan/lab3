@@ -8,6 +8,7 @@
 #include "location.h"
 #include "parser.h"
 #include "thing.h"
+#include "worm.h"
 #include <vector>
 #include <time.h>
 

@@ -11,11 +11,8 @@ namespace advgame{
   class Trollkarl : public Hero{
   private: Parser * parser;
     map<string, Thing*> * thingMap;
-    
   public:
-
     Trollkarl(int,string,Parser*, map<string, Thing *> *);
-
     virtual ~Trollkarl();
     virtual void action();
     virtual void fight(string);

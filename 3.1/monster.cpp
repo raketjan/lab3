@@ -4,26 +4,9 @@ namespace advgame{
 
   Monster::Monster(int h,string namn) : Npc(h,namn)  {
   }
-  
+
   Monster::~Monster() {
-    // ta bort ur listan med folk där han är
-    
-    cout << "ta bort ur platsen man är på" << endl;
-    
-    getPlace()->getGubbar().erase(find(getPlace()->getGubbar().begin(),
-				       getPlace()->getGubbar().end(),
-				       this)
-				  );
-    cout << "ta bort ur thingMap" << endl;
-    getThingMap().erase(name());
-    cout << "ta bort ur actors" << endl;
-    
-    getActors().erase(find(getActors().begin(),
-			   getActors().end(),
-			   this));
-    cout << "tagit bort ur ~Monster, hoppar typ uppåt !" << endl;
-    // ta bort ur itemMap
-    
+
   }
   
   void Monster::action() {

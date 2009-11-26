@@ -5,8 +5,24 @@ namespace advgame{
     Thing(),hp(h),m_name(namn){
     
   }
+  /* Remove from all containers */
   Actor::~Actor(){
+    for(vector<Item *>::iterator it = possessions.begin();
+	it!=possessions.end();
+	++it){
+      getPlace()->getStuff().push_back(*it);
+    }
 
+    cout << name() << " s destruktor" << endl;
+    getPlace()->getGubbar().erase(find(getPlace()->getGubbar().begin(),
+				       getPlace()->getGubbar().end(),
+				       this)
+				  );
+    getThingMap().erase(name());
+    getActors().erase(find(getActors().begin(),
+			   getActors().end(),
+			   this));
+    cout << " kom igenom hela ~actor" << endl;
   }
   void Actor::setThingMap( map<string, Thing *>* tm){
     thingMap=tm;
@@ -21,11 +37,10 @@ namespace advgame{
     return *actors;
   }
     
-
   string Actor::name() const {
     return m_name;
   }
-    
+  
   void Actor::go(string d){
     int minpos;
     for(int i= 0; i<whereAt->getGubbar().size();++i){
@@ -33,7 +48,7 @@ namespace advgame{
 	minpos=i;
       }
     }
-   
+    
     map<string, Place *>::iterator it = whereAt->getExits().find(d);
     if(it != whereAt->getExits().end()){
    
