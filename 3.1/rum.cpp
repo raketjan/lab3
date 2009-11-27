@@ -8,21 +8,7 @@ namespace advgame{
   
   Rum::~Rum(){}
   
-  Place & Rum::neighbour(string direction) {
-  }
-  
-  void Rum::enter(Actor *) {
-  }
-  
-  void Rum::leave(Actor *) {
-  }
-  
-  Item & Rum::pick_up(Item *) {
-  }
-  
-  Item & Rum::drop(Item *) {
-  }
   string Rum::save(){
-    
+    return "save rum";
   }  
 }

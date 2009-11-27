@@ -48,26 +48,66 @@ namespace advgame{
   }
   
   void Trollkarl::fight(string motst){
-    cout << "inne i trollkarl.fight() !!!" << endl;
+
     Actor * motstP;
     Thing * tmp = (*thingMap)[motst];
-    motstP = static_cast<Actor *>(tmp);
+    motstP = dynamic_cast<Actor *>(tmp);
     // har jag ett vapen ?
     string tjo = "svärd";
     vector<Item *>::iterator it = find(getPossessions().begin(),getPossessions().end(),tjo);
-    
     if (it != getPossessions().end()){
       motstP->setHp(motstP->getHp() - 100);
+      if (Worm * ormP = dynamic_cast<Worm *> (motstP)) {
+	cout << "OK " << endl;
+	string n1 = motstP->name() + "shuvud";
+	string n2 = motstP->name() + "ssvans";
+	Worm * w1 = new Worm(100,n1);
+	Worm * w2 = new Worm(100,n2);
+	w1->setPlace(getPlace());
+	w2->setPlace(getPlace());
+	(*thingMap)[n1] = w1;
+	(*thingMap)[n2] = w2;
+	w1->setThingMap(thingMap);
+	w2->setThingMap(thingMap);
+	getActors().push_back(w1);
+	getActors().push_back(w2);
+	w1->setActors(&getActors());
+	w2->setActors(&getActors());
+	w1->setPlayer(getPlayer());
+	w2->setPlayer(getPlayer());
+      }            
     }else{ 
       motstP->setHp(motstP->getHp() - 50);
     }
-    cout << motst << " har nu " << motstP->getHp() << " hitpoints !";
+    cout << motst << " har nu " << motstP->getHp() << " hitpoints !" << endl;
     
   }
   
   void Trollkarl::talk_to(string pratkvarn){
   }
 
+  void Trollkarl::give(string tillvem){
+    cout << "inne i trollkarl::gebortnåt" << endl;
+    if (tillvem == "häxan") {
+      // kolla att vi är på samma plats...
+  
+      if (find(getPlace()->getGubbar().begin(),
+	       getPlace()->getGubbar().end(),
+	       tillvem) != getPlace()->getGubbar().end() ) {
+	string f = "frukostägg";
+	if (find(getPossessions().begin(),
+		 getPossessions().end(),
+		 f) != getPossessions().end()) {
+	  cout << "Du ger häxan det goda ägget. Hon blir så lycklig att hon ger dig nyckeln till slottet !" << endl;
+	} else cout << "Du har inget häxan vill ha !" << endl;
+      }
+      else cout << "Du ser ingen häxa." << endl;
+    }
+      else cout << "Finns ingen här som är intresserad av att prata med dig" << endl;
+      
+  }
+
   string Trollkarl::save(){
+    return "XXX";
   }
 }

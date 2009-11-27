@@ -1,15 +1,20 @@
-#ifndef __MONSTER__
-#define __MONSTER__
+#ifndef __HEN__
+#define __HEN__
 #include <vector>
 #include "npc.h"
 #include "place_actor.h"
 #include "item.h"
 using namespace std;
 namespace advgame{
-  class Monster : public Npc{
+  class Hen : public Npc{
+  private:
+    int eggs;
+    string egg [3];
+    string eggdescription [3];
+
   public:
-    Monster(int,string);
-    virtual ~Monster();
+    Hen(int,string);
+    virtual ~Hen();
     virtual void action();
     virtual void fight(string);
     virtual void talk_to(string);

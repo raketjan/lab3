@@ -8,11 +8,6 @@ namespace advgame{
   public:
     Rum(string,string);
     virtual ~Rum();
-    virtual Place & neighbour(string);
-    virtual void enter(Actor *);
-    virtual void leave(Actor *);
-    virtual Item & pick_up(Item *);
-    virtual Item & drop(Item *);
     virtual string save();
   };
 }

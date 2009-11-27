@@ -1,5 +1,6 @@
 #ifndef __PLACE_ACTOR__
 #define __PLACE_ACTOR__
+#include <typeinfo>
 #include <vector>
 #include <stdlib.h>
 #include <iostream>
@@ -11,6 +12,7 @@ using namespace std;
 namespace advgame{
   class Actor;
   class Place : public Thing{
+  
     map<string,Place *> exits;
     string name;
     string m_description;   
@@ -19,11 +21,6 @@ namespace advgame{
   public:
     Place(string, string);
     virtual ~Place();
-    virtual Place & neighbour(string) = 0;
-    virtual void enter(Actor *) = 0;
-    virtual void leave(Actor *) = 0;
-    void pick_up(Item *);
-    void drop(Item *);
     void setName(string);
     string getName() const;
     void setExit(string e,Place * p);
@@ -35,11 +32,11 @@ namespace advgame{
     vector<Item *> & getStuff();
     void addStuff(Item *);
     virtual string save() = 0;
-    
   };
   
   class Actor : public Thing{
   private:
+    Actor * player;
     int hp;    
     string m_name;
     string m_type;
@@ -66,8 +63,12 @@ namespace advgame{
     void pick_up(string);
     void drop(string);
     void examine(string);
+    virtual void give(string) = 0;
     virtual void talk_to(string) = 0;
     vector<Item *>& getPossessions();
+    Actor* getPlayer();
+    void setPlayer(Actor *);     
+
   public:
     virtual string save() = 0;
   };

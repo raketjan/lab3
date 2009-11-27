@@ -5,7 +5,7 @@
 #include "place_actor.h"
 #include "item.h"
 #include "parser.h"
-
+#include "worm.h"
 using namespace std;
 namespace advgame{
   class Trollkarl : public Hero{
@@ -18,6 +18,7 @@ namespace advgame{
     virtual void fight(string);
     virtual void talk_to(string);
     virtual string save();
+    virtual void give(string);
   };
 }
 

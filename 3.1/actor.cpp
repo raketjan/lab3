@@ -18,7 +18,10 @@ namespace advgame{
 				       getPlace()->getGubbar().end(),
 				       this)
 				  );
+    cout << "efter getPlace()->getGubbar().erase" << endl;
     getThingMap().erase(name());
+    cout << "efter getThingMap().erase(name());" << endl; 
+    
     getActors().erase(find(getActors().begin(),
 			   getActors().end(),
 			   this));
@@ -40,10 +43,10 @@ namespace advgame{
   string Actor::name() const {
     return m_name;
   }
-  
+
   void Actor::go(string d){
     int minpos;
-    for(int i= 0; i<whereAt->getGubbar().size();++i){
+    for(size_t i= 0; i<whereAt->getGubbar().size();++i){
       if(name()==whereAt->getGubbar()[i]->name()){
 	minpos=i;
       }
@@ -135,4 +138,11 @@ namespace advgame{
     return s == a1->name();
   }
 
+  Actor * Actor::getPlayer() {
+    return player;
+  }
+
+  void Actor::setPlayer(Actor * p) {
+    player = p;
+  }
 }

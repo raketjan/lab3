@@ -4,11 +4,12 @@
 #include "place_actor.h"
 #include "container.h"
 #include "trollkarl.h"
+#include "witch.h"
 #include "monster.h"
-#include "location.h"
 #include "parser.h"
 #include "thing.h"
 #include "worm.h"
+#include "hen.h"
 #include <vector>
 #include <time.h>
 
@@ -35,6 +36,7 @@ namespace advgame{
     void act();
     void init();
     void initActions();
+    void setDescription();
   public:
     void loop();
     Game();

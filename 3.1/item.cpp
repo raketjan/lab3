@@ -24,7 +24,7 @@ std::string Item::getName() const {
   return name;
 }
   std::string Item::save(){
-    
+    return "XXX";
   }
   
   bool operator==(const string s, const Item * i2) {

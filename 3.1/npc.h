@@ -12,6 +12,7 @@ namespace advgame{
     virtual void talk_to(string) = 0;
     virtual string save() = 0;
     virtual ~Npc();
+    virtual void give(string) = 0; 
   };
 }
 

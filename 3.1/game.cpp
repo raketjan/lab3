@@ -12,57 +12,94 @@ namespace advgame{
     (*actorFuncMap)["släng"]=&Actor::drop;
     (*actorFuncMap)["undersök"]=&Actor::examine;
     (*actorFuncMap)["anfall"]=&Actor::fight;
+    (*actorFuncMap)["ge"]=&Actor::give;
     parser->thingMap = thingMap;
     parser->actorFuncMap = actorFuncMap;
+    setDescription();
     initActions();
     init();
   }
   
   void Game::initActions(){
   }
+
+  void Game::setDescription(){
+    description = "Välkommen till Supergame ! \n"
+      "Din käresta har fångats av den lömske kungen och hans ormformade underhuggare.\n "
+      "Finn ett sätt att ta dig in i slottet, och undvik de lömska ormarna i möjligaste mån.\n" ;
+  }
+
   
   void Game::init(){
-    Place * vardagsrum = new Rum("vardagsrummet","Här chillar du och pillar naveln.");
-    (*thingMap)["vardagsrummet"] = vardagsrum;
-    Place * sovrum = new Rum("sovrummet","Här ligger du ofta och snarkar.");
-    (*thingMap)["sovrummet"]=sovrum;
-    Place * garderob = new Rum("garderoben","Här har du dina loppätna kläder.");
-    (*thingMap)["garderoben"]=garderob;
-    Place * balkong = new Rum("balkongen","Här tjuvröker du.");
-    (*thingMap)["balkongen"]=balkong;
-    vardagsrum->setExit("öst",sovrum);
-    vardagsrum->setExit("in",garderob);
-    garderob->setExit("ut",vardagsrum);
-    sovrum->setExit("ut",balkong);
-    sovrum->setExit("väst",vardagsrum);
-    balkong->setExit("in",sovrum);
+    cout << description << endl;
+    Place * clearing = new Rum("dystra gläntan","En ödesmättad trolldimma ligger tät över denna plats.");
+    (*thingMap)["dystra gläntan"] = clearing;
+    Place * woods = new Rum("ödsliga skogen","Här bor ett otal rövare och djur och annat skumt.");
+    (*thingMap)["ödsliga skogen"]=woods;
+    Place * fields = new Rum("böljande fälten","Här odlas all mat i riket.");
+    (*thingMap)["böljande fälten"]=fields;
+    Place * beach = new Rum("fjärran stranden","Här blickar du ut över det oändliga söderhavet.");
+    (*thingMap)["fjärran stranden"]=beach;
+    Place * lobby = new Rum("slotts-lobbyn","I foajén till slottet.");
+    (*thingMap)["lobbyn"]=lobby;
+    Place * hall = new Rum("stora slottshallen","Här har det fina folket sina fester.");
+    (*thingMap)["slottshall"]=hall;
+    Place * dungeon = new Rum("fängelsehålan","Här låser kungen in sina värsta fiender.");
+    (*thingMap)["fängelsehålan"]=dungeon;
+    Place * tower = new Rum("uppe i tornet","Här kan du se ut över hela riket.");
+    (*thingMap)["tornet"]=tower;
+    clearing->setExit("väst",woods);
+    woods->setExit("öst",clearing);
+    woods->setExit("söder",beach);
+    woods->setExit("väst",fields);
+    beach->setExit("norr",woods);
+    fields->setExit("in",lobby);
+    fields->setExit("öst", woods);
+    dungeon->setExit("upp", lobby);
+    lobby->setExit("ner", dungeon);
+    lobby->setExit("upp", tower);
+    lobby->setExit("norr", hall);
+    tower->setExit("ner", lobby);
+    hall->setExit("south", lobby);
     Item * svard = new Item("svärd","Stick dom med den vassa änden.", 4,3);
     (*thingMap)["svärd"]=svard;
-    sovrum->addStuff(svard);
+    beach->addStuff(svard);
     Container * pase = new Container("påse", "Den rymmer en massa härliga grejer!", 2, 10, 20);
     (*thingMap)["påse"]=pase;
-    vardagsrum->addStuff(pase);
+    clearing->addStuff(pase);
     string namnet, beskrivningen;
     cout << "Vad ska du heta ?" << endl;
     cin >> namnet;
     Trollkarl * player = new Trollkarl(50, namnet, parser, thingMap);
     (*thingMap)[namnet]=player;
-    player->setPlace(sovrum);
+    player->setPlace(beach);
+    player->pick_up("svärd");
     player->setActors(actors);    
     Worm * argOrm = new Worm(50, "Ormbengt");
     (*thingMap)["Ormbengt"]=argOrm;
     argOrm->setThingMap(thingMap);
     argOrm->setActors(actors);
-    argOrm->setPlace(sovrum);
-    argOrm->pick_up("svärd");    
-    Monster * vildaPonnyn = new Monster(50, "Vildaponnyn");
-    vildaPonnyn->setThingMap(thingMap);
-    (*thingMap)["Vildaponnyn"]=vildaPonnyn;
-    vildaPonnyn->setActors(actors);
-    vildaPonnyn->setPlace(vardagsrum);
+    argOrm->setPlace(woods);
+    Hen * hen = new Hen(10,"hönan");
+    (*thingMap)["hönan"] = hen;
+    hen->setThingMap(thingMap);
+    hen->setActors(actors);
+    hen->setPlace(woods);
+   
+    Witch * witch = new Witch(100050, "häxan");
+    witch->setThingMap(thingMap);
+    (*thingMap)["häxan"]=witch;
+    witch->setActors(actors);
+    witch->setPlace(clearing);
     actors->push_back(player);
-    actors->push_back(vildaPonnyn);
+    actors->push_back(witch);
     actors->push_back(argOrm);
+    actors->push_back(hen);
+    witch->setPlayer(player);
+    argOrm->setPlayer(player);
+    player->setPlayer(player);  // !!!
+    hen->setPlayer(player);
+
   }
   
   void Game::getInput(){
@@ -74,10 +111,11 @@ namespace advgame{
       cout << endl;
       cout << "------------------- Omgång " << clock << " ---------------" << endl;
       for(size_t i =0;i<actors->size();++i){
-	cout << "spelare " << i <<  "s tur" << endl;
+	cout << "--- Spelare " << (*actors)[i]->name()  << "s tur" << endl;
 	if((*actors)[i]->getHp() <=0 ) {
 	  cout << "delete " << (*actors)[i]->name()<< endl;
 	  delete (*actors)[i];
+	  --i;
 	}else{
 	  (*actors)[i]->action();
 	}

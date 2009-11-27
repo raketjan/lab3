@@ -4,22 +4,8 @@ namespace advgame{
   Worm::Worm(int h,string namn) : Monster(h,namn){
     
   }
+  
   Worm::~Worm(){
-    cout << "destr" << endl;
-    string n1 = name() + "shuvud";
-    string n2 = name() + "ssvans";
-    cout << "Skapar: " << n1 << " & " << n2 << endl;
-    Worm * w1 = new Worm(100,n1);
-    Worm * w2 = new Worm(100,n2);
-    w1->setPlace(getPlace());
-    w2->setPlace(getPlace());
-    getThingMap()[n1] = w1;
-    getThingMap()[n2] = w2;
-    w1->setThingMap(&getThingMap());
-    w2->setThingMap(&getThingMap());
-    getActors().push_back(w1);
-    getActors().push_back(w2);
-    
   }
 
   void Worm::action(){
@@ -37,6 +23,6 @@ namespace advgame{
   void Worm::talk_to(string){
   }
   string Worm::save(){
-
+    return "XXX";
   }
 }

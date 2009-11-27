@@ -33,8 +33,11 @@ namespace advgame{
   void Monster::talk_to(string pratkvarn) {
     
   }
+  void Monster::give(string mottagare) {
+    
+  }
   
   string Monster::save(){
-    
+    return "XXX";
   }
 }
