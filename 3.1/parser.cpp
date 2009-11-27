@@ -11,7 +11,7 @@ namespace advgame{
     cin >> token;
     cin >> token2;
     if(actorFuncMap->find(token) != actorFuncMap->end() &&
-       thingMap->find(token2) != thingMap->end()){
+       (token == "gå" || thingMap->find(token2) != thingMap->end())){
       ((*player).*(*actorFuncMap)[token])(token2);
     }else{
       cout << "Lär dig stava idiotjävel!" << endl;

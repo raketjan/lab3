@@ -1,7 +1,7 @@
 CC=g++
 CFLAGS=-Wall -g
 
-SOURCES=container.cpp item.cpp indoors.cpp rum.cpp trollkarl.cpp game.cpp hero.cpp monster.cpp npc.cpp parser.cpp thing.cpp worm.cpp
+SOURCES=container.cpp item.cpp indoors.cpp rum.cpp trollkarl.cpp game2.cpp hero.cpp monster.cpp npc.cpp parser.cpp thing.cpp worm.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 HEADERS=$(SOURCES:.cpp=.h)
 
