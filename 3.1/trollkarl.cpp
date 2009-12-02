@@ -83,6 +83,29 @@ namespace advgame{
     
   }
   
+  void Trollkarl::go(string d) {
+    cout << "SKRIVS DETTA ELLER !!!!!!!!!!!!!!!!" << endl;
+    if (d == "in" && getPlace()->getName() == "böljande fälten") {
+      string s("nyckeln");
+      if (find(getPossessions().begin(),getPossessions().end(),s) == getPossessions().end()) {
+	cout << "Du måste ha en nyckel för att komma in här." << endl;
+	return;
+      }
+    } 
+    map<string, Place *>::iterator it = getPlace()->getExits().find(d);
+    if(it != getPlace()->getExits().end()){
+      
+      getPlace()->getGubbar().erase(find(getPlace()->getGubbar().begin(),getPlace()->getGubbar().end(), name()));
+      setPlace(it->second);
+      getPlace()->addGubbe(this);
+      
+    }else{
+      cout << "Kan inte gå ditåt" << endl;
+    }
+  }
+    
+    
+
   void Trollkarl::talk_to(string pratkvarn){
   }
 
@@ -90,7 +113,7 @@ namespace advgame{
     cout << "inne i trollkarl::gebortnåt" << endl;
     if (tillvem == "häxan") {
       // kolla att vi är på samma plats...
-  
+      
       if (find(getPlace()->getGubbar().begin(),
 	       getPlace()->getGubbar().end(),
 	       tillvem) != getPlace()->getGubbar().end() ) {
@@ -99,12 +122,19 @@ namespace advgame{
 		 getPossessions().end(),
 		 f) != getPossessions().end()) {
 	  cout << "Du ger häxan det goda ägget. Hon blir så lycklig att hon ger dig nyckeln till slottet !" << endl;
-	} else cout << "Du har inget häxan vill ha !" << endl;
+	  Item * nyck = new Item("nyckeln", "en nyckel till slottet", 5,10);
+	  getThingMap()["nyckeln"] = nyck;
+	  getPossessions().push_back(nyck);
+	} else {
+	  cout << "Du har inget häxan vill ha !" << endl;
+	}
+      } else {
+	cout << "Du ser ingen häxa." << endl;
       }
-      else cout << "Du ser ingen häxa." << endl;
     }
-      else cout << "Finns ingen här som är intresserad av att prata med dig" << endl;
-      
+    else {
+      cout << "Finns ingen här som är intresserad av att prata med dig" << endl;
+    }
   }
 
   string Trollkarl::save(){

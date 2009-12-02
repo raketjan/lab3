@@ -15,6 +15,7 @@ namespace advgame{
     Trollkarl(int,string,Parser*, map<string, Thing *> *);
     virtual ~Trollkarl();
     virtual void action();
+    void go(string);
     virtual void fight(string);
     virtual void talk_to(string);
     virtual string save();

@@ -28,6 +28,7 @@ namespace advgame{
     map<string, actorFuncP> * actorFuncMap;
     
     /* or map? */
+    Trollkarl * player;
     Parser * parser;
     string description;
     int clock;

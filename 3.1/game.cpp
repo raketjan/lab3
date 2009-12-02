@@ -26,7 +26,8 @@ namespace advgame{
   void Game::setDescription(){
     description = "Välkommen till Supergame ! \n"
       "Din käresta har fångats av den lömske kungen och hans ormformade underhuggare.\n "
-      "Finn ett sätt att ta dig in i slottet, och undvik de lömska ormarna i möjligaste mån.\n" ;
+      "Finn ett sätt att ta dig in i slottet, och undvik de lömska ormarna i möjligaste mån.\n" 
+"Du måste skriva två ord, där det första är något av följande: gå, ta, släng, undersök, anfall, ge, t.ex gå väst, ge häxan.\n";
   }
 
   
@@ -46,7 +47,7 @@ namespace advgame{
     (*thingMap)["slottshall"]=hall;
     Place * dungeon = new Rum("fängelsehålan","Här låser kungen in sina värsta fiender.");
     (*thingMap)["fängelsehålan"]=dungeon;
-    Place * tower = new Rum("uppe i tornet","Här kan du se ut över hela riket.");
+    Place * tower = new Rum("tornet","Här kan du se ut över hela riket.");
     (*thingMap)["tornet"]=tower;
     clearing->setExit("väst",woods);
     woods->setExit("öst",clearing);
@@ -70,11 +71,11 @@ namespace advgame{
     string namnet, beskrivningen;
     cout << "Vad ska du heta ?" << endl;
     cin >> namnet;
-    Trollkarl * player = new Trollkarl(50, namnet, parser, thingMap);
+    player = new Trollkarl(50, namnet, parser, thingMap);
     (*thingMap)[namnet]=player;
     player->setPlace(beach);
-    player->pick_up("svärd");
-    player->setActors(actors);    
+    player->setActors(actors);
+    player->setThingMap(thingMap);    
     Worm * argOrm = new Worm(50, "Ormbengt");
     (*thingMap)["Ormbengt"]=argOrm;
     argOrm->setThingMap(thingMap);
@@ -108,6 +109,21 @@ namespace advgame{
   
   void Game::loop(){
     while(true){
+      if (clock == 30) {
+	cout << "Du känner att det samlas lite vatten i ditt knä." << endl;
+      }
+if (clock == 40) {
+	cout << "Det börjar mullra lite i skyn..." << endl;
+      }
+if (clock == 50) {
+	cout << "Åskan slår ner i huvet på dig. Skynda dig lite mer med att rädda prinsessan nästa gång, sölkorv !" << endl;
+	return;
+      }
+      cout << player->getPlace()->getName() << endl;
+      if (player->getPlace()->getName() == "tornet") {
+	cout << "Du har hittat prinsessan ! Hurra, nu ska ni leva lyckliga resten av era liv !!!" << endl;
+	return;
+      }
       cout << endl;
       cout << "------------------- Omgång " << clock << " ---------------" << endl;
       for(size_t i =0;i<actors->size();++i){

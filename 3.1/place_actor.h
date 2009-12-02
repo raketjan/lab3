@@ -57,7 +57,7 @@ namespace advgame{
     void setPlace(Place *);
     int getHp()const;
     void setHp(int);
-    void go(string);
+    virtual void go(string);
     virtual void action()= 0;
     virtual void fight(string) = 0;
     void pick_up(string);
