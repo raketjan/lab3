@@ -2,7 +2,7 @@
 namespace advgame{
 
 Container::Container(std::string namn, std::string beskrivning, int vikt, int pris, int kapacitet) : 
-  Item(namn,beskrivning,vikt,pris), capacity(kapacitet), stuff(*(new vector<Item*>()) ) 
+  Item(namn,beskrivning,vikt,pris), capacity(kapacitet), stuff(vector<Item*>()) 
 {}
   
   Container::~Container() {}   // ta hand om prylarna i när den pajar...

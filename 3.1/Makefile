@@ -12,6 +12,12 @@ components:place.o actor.o $(OBJECTS) $(HEADERS) place_actor.h Makefile
 supergame: components supergame.o
 	$(CC) $(CFLAGS) -o $@ place.o actor.o $(OBJECTS) $@.o		
 
+valgrind:supergame
+	valgrind  --leak-check=yes ./$<
+
+valgrindv:supergame
+	valgrind -v --leak-check=yes ./$<
+
 %.o:%.cpp
 	$(CC) $(CFLAGS) -c $<
 

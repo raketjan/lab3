@@ -9,14 +9,13 @@ namespace advgame{
   }
 
   void Worm::action(){
-    cout << "Inne i worm::action !!!" << endl;
     //if (rand() % 2 == 0) {
       int godirection = rand() % getPlace()->getExits().size();
       map<string, Place *>::const_iterator it = getPlace()->getExits().begin();
       for (int i = 0; i < godirection; ++i) ++it;
       go(it->first);
       //}
-    cout << "Klar med worm::action !!!" << endl;
+
   }
   void Worm::fight(string){
   }

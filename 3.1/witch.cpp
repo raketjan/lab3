@@ -10,7 +10,6 @@ namespace advgame{
   }
   
   void Witch::action() {
-    cout << "inne i witch::action" << endl;
     if(find(getPlace()->getGubbar().begin(),
 	    getPlace()->getGubbar().end(),
 	    getPlayer()) != getPlace()->getGubbar().end());

@@ -8,11 +8,11 @@ namespace advgame{
   }
   
   Place::~Place(){
-    
+
   }
   
   void Place::setName(string n){
-    name = name;
+    name = n;
   }
 
   string Place::getName() const{

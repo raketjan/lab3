@@ -13,7 +13,7 @@ namespace advgame{
   }
   
   void Hen::action() {
-    cout << "inne i hen::action" << endl;
+
     if (rand() % 2 == 0) {
       int godirection = rand() % getPlace()->getExits().size();
       map<string, Place *>::const_iterator it = getPlace()->getExits().begin();

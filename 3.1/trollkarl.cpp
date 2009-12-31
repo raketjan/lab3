@@ -58,7 +58,7 @@ namespace advgame{
     if (it != getPossessions().end()){
       motstP->setHp(motstP->getHp() - 100);
       if (Worm * ormP = dynamic_cast<Worm *> (motstP)) {
-	cout << "OK " << endl;
+	//cout << "OK " << endl;
 	string n1 = motstP->name() + "shuvud";
 	string n2 = motstP->name() + "ssvans";
 	Worm * w1 = new Worm(100,n1);
@@ -84,7 +84,6 @@ namespace advgame{
   }
   
   void Trollkarl::go(string d) {
-    cout << "SKRIVS DETTA ELLER !!!!!!!!!!!!!!!!" << endl;
     if (d == "in" && getPlace()->getName() == "böljande fälten") {
       string s("nyckeln");
       if (find(getPossessions().begin(),getPossessions().end(),s) == getPossessions().end()) {
@@ -110,7 +109,7 @@ namespace advgame{
   }
 
   void Trollkarl::give(string tillvem){
-    cout << "inne i trollkarl::gebortnåt" << endl;
+    //cout << "inne i trollkarl::gebortnåt" << endl;
     if (tillvem == "häxan") {
       // kolla att vi är på samma plats...
       

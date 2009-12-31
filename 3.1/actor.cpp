@@ -7,25 +7,27 @@ namespace advgame{
   }
   /* Remove from all containers */
   Actor::~Actor(){
+    /* Drop the actors items */
     for(vector<Item *>::iterator it = possessions.begin();
 	it!=possessions.end();
 	++it){
       getPlace()->getStuff().push_back(*it);
     }
-
-    cout << name() << " s destruktor" << endl;
-    getPlace()->getGubbar().erase(find(getPlace()->getGubbar().begin(),
+    /* Remove actor from current place */
+        vector<Actor*>::iterator it = find(getPlace()->getGubbar().begin(),
 				       getPlace()->getGubbar().end(),
-				       this)
-				  );
-    cout << "efter getPlace()->getGubbar().erase" << endl;
-    getThingMap().erase(name());
-    cout << "efter getThingMap().erase(name());" << endl; 
+				       this);
+    if(it==getPlace()->getGubbar().end()){
+    }else{
+      getPlace()->getGubbar().erase(it);
+    }
     
+    /* Remove from thingMap */
+    getThingMap().erase(name());
+    /* Remove from actors */
     getActors().erase(find(getActors().begin(),
 			   getActors().end(),
 			   this));
-    cout << " kom igenom hela ~actor" << endl;
   }
   void Actor::setThingMap( map<string, Thing *>* tm){
     thingMap=tm;

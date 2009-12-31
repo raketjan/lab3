@@ -21,13 +21,12 @@ namespace advgame{
   private:
     vector<Place *> places;
     vector<Actor *> * actors;
-    /*Borde nog ersätta sctors */
+    /*Borde nog ersätta actors */
 
     map<string, Thing *> * thingMap;
     typedef void (Actor::*actorFuncP)(string);
     map<string, actorFuncP> * actorFuncMap;
     
-    /* or map? */
     Trollkarl * player;
     Parser * parser;
     string description;

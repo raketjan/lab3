@@ -24,10 +24,11 @@ namespace advgame{
   }
 
   void Game::setDescription(){
-    description = "Välkommen till Supergame ! \n"
-      "Din käresta har fångats av den lömske kungen och hans ormformade underhuggare.\n "
+    description = 
+      "Välkommen till Supergame ! \n"
+      "Din käresta har fångats av den lömske kungen och hans ormformade underhuggare.\n"
       "Finn ett sätt att ta dig in i slottet, och undvik de lömska ormarna i möjligaste mån.\n" 
-"Du måste skriva två ord, där det första är något av följande: gå, ta, släng, undersök, anfall, ge, t.ex gå väst, ge häxan.\n";
+      "Du måste skriva två ord, där det första är något av följande: gå, ta, släng, undersök, anfall, ge, t.ex gå väst, ge häxan.\n";
   }
 
   
@@ -88,10 +89,14 @@ namespace advgame{
     hen->setPlace(woods);
    
     Witch * witch = new Witch(100050, "häxan");
-    witch->setThingMap(thingMap);
     (*thingMap)["häxan"]=witch;
-    witch->setActors(actors);
+
     witch->setPlace(clearing);
+    witch->setActors(actors);
+    witch->setThingMap(thingMap);
+    // fel på clearing, beach, fields, dungeon!
+    // funkar med woods, lobby, 
+
     actors->push_back(player);
     actors->push_back(witch);
     actors->push_back(argOrm);
@@ -109,13 +114,16 @@ namespace advgame{
   
   void Game::loop(){
     while(true){
+      if(clock==2){
+	return;
+      }
       if (clock == 30) {
 	cout << "Du känner att det samlas lite vatten i ditt knä." << endl;
       }
-if (clock == 40) {
+      if (clock == 40) {
 	cout << "Det börjar mullra lite i skyn..." << endl;
       }
-if (clock == 50) {
+      if (clock == 50) {
 	cout << "Åskan slår ner i huvet på dig. Skynda dig lite mer med att rädda prinsessan nästa gång, sölkorv !" << endl;
 	return;
       }
@@ -127,9 +135,9 @@ if (clock == 50) {
       cout << endl;
       cout << "------------------- Omgång " << clock << " ---------------" << endl;
       for(size_t i =0;i<actors->size();++i){
-	cout << "--- Spelare " << (*actors)[i]->name()  << "s tur" << endl;
+	//cout << "--- Spelare " << (*actors)[i]->name()  << "s tur" << endl;
 	if((*actors)[i]->getHp() <=0 ) {
-	  cout << "delete " << (*actors)[i]->name()<< endl;
+	  // Kanske ska ta bort allt för hand här
 	  delete (*actors)[i];
 	  --i;
 	}else{
@@ -140,35 +148,23 @@ if (clock == 50) {
     }
   }
   
-
   Game::~Game(){
-    /*
-      for(vector<Place *>::iterator it = places.begin();
-      it!=places.end();
-      ++it){
-      // fel att delete  *it?
-      for(vector<Item *>::iterator it2 = (*it)->getStuff().begin();
-      it2!=((*it)->getStuff()).end();
-      ++it2){
-      delete *it2;
-      }
-      delete *it;
-      }
-      
-    for(vector<Actor *>::iterator it = actors.begin();
-	it!=actors.end();
-	++it){
-      // fel att delete  *it?
-      for(vector<Item *>::iterator it2 = (*it)->getPossessions().begin();
-	  it2!=((*it)->getPossessions()).end();
-	  ++it2){
-	delete *it2;
-      }
-      delete *it;
+    /* Delete all actors first 
+       to prevent sigseg*/
+    while(!actors->empty()){
+      delete (*actors)[0];
     }
-    */
+    while(!thingMap->empty()){
+      map<string,Thing*>::iterator it = thingMap->begin();
+      delete it->second;
+            if(thingMap->find(it->first)!=thingMap->end()){
+	thingMap->erase(thingMap->begin());
+      }
+    }
+    delete thingMap;
+    delete actors;    
+    delete parser;
+    delete actorFuncMap;
   }
-  
-
 }
 
