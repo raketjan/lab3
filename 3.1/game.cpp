@@ -62,7 +62,7 @@ namespace advgame{
     lobby->setExit("upp", tower);
     lobby->setExit("norr", hall);
     tower->setExit("ner", lobby);
-    hall->setExit("south", lobby);
+    hall->setExit("söder", lobby);
     Item * svard = new Item("svärd","Stick dom med den vassa änden.", 4,3);
     (*thingMap)["svärd"]=svard;
     beach->addStuff(svard);

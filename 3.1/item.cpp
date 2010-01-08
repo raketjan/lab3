@@ -7,7 +7,7 @@ namespace advgame{
     name(namn), description(beskrivning), weight(vikt), price(pris) {}
 
   Item::~Item() {
-    cout << "Item destruktor till: " << getName() << endl;
+    //cout << "Item destruktor till: " << getName() << endl;
   }
 
 int Item::getWeight() const {
