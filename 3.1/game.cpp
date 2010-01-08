@@ -114,9 +114,7 @@ namespace advgame{
   
   void Game::loop(){
     while(true){
-      if(clock==2){
-	return;
-      }
+
       if (clock == 30) {
 	cout << "Du känner att det samlas lite vatten i ditt knä." << endl;
       }
@@ -127,7 +125,7 @@ namespace advgame{
 	cout << "Åskan slår ner i huvet på dig. Skynda dig lite mer med att rädda prinsessan nästa gång, sölkorv !" << endl;
 	return;
       }
-      cout << player->getPlace()->getName() << endl;
+      //cout << player->getPlace()->getName() << endl;
       if (player->getPlace()->getName() == "tornet") {
 	cout << "Du har hittat prinsessan ! Hurra, nu ska ni leva lyckliga resten av era liv !!!" << endl;
 	return;
